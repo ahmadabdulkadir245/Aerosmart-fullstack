@@ -41,7 +41,7 @@ function Banner() {
         return res.json();
       })
       .then(bannerData => {
-        const recievedData = bannerData.data?.banners?.banners
+        const recievedData = bannerData.data?.banners?.banners || []
         recievedData.reverse()
         setBanners(recievedData)
       })

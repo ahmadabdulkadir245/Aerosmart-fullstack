@@ -1,0 +1,1 @@
+export const GRAPHQL_URL =' https://aerosmart-mysql-db.onrender.com/graphql'

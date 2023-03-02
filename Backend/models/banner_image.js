@@ -1,17 +1,17 @@
 const db = require('../util/database');
 
 module.exports = class Banner {
-  constructor(id,  category,imageUrl, userId) {
+  constructor(id,  category,image, userId) {
     this.id = id;
     this.category = category;
-    this.imageUrl = imageUrl;
+    this.image = image;
     this.userId = userId;
   }
 
   save() {
     return db.execute(
-      'INSERT INTO banners ( category, imageUrl, userId) VALUES (?, ?, ?)',
-      [  this.category, this.imageUrl, this.userId]
+      'INSERT INTO banners ( category, image, userId) VALUES (?, ?, ?)',
+      [  this.category, this.image, this.userId]
     );
   }
 

@@ -82,7 +82,7 @@ module.exports = {
         return {
           id: banner.id,
           category: banner.category,
-          imageUrl: banner.imageUrl,
+          image: banner.image,
           userId: 1,
         };
       },
@@ -97,7 +97,7 @@ module.exports = {
             return {
                 id: banner.id,
                 category: banner.category,
-                imageUrl: banner.imageUrl,
+                image: banner.image,
                 userId: banner.userId,
                 // createdAt: banner.createdAt.toISOString(),
                 // updatedAt: banner.updatedAt.toISOString()

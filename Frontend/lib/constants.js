@@ -1,1 +1,1 @@
-export const GRAPHQL_URL =' https://aerosmart-mysql-db.onrender.com/graphql'
+export const GRAPHQL_URL ='https://aerosmart-fullstack-backend.onrender.com/graphql'

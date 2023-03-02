@@ -15,7 +15,6 @@ import { Pagination, Navigation, Thumbs } from "swiper";
 
 function Banner() {
   const [banners, setBanners] = useState([])
-  const page = 1
   useEffect(() => {
     const graphqlQuery = {
       query: `

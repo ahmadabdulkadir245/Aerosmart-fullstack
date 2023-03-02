@@ -2,7 +2,7 @@ const { buildSchema } = require('graphql');
 module.exports = buildSchema(`
     type Banner {
         id:ID
-        imageUrl: String!
+        image: String!
         category: String!
         userId: ID
     }
@@ -42,7 +42,7 @@ module.exports = buildSchema(`
     }
 
     input BannerInputData {
-        imageUrl: String!
+        image: String!
         category: String!
         userId: ID
     }

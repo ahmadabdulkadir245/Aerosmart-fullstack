@@ -23,7 +23,7 @@ function Banner() {
           banners{
             id
             category
-            imageUrl
+            image
           }
         }
       }

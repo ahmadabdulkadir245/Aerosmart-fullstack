@@ -7,7 +7,7 @@ import { GRAPHQL_URL } from '../../lib/constants'
 const AddBanner = () => {
   const [bannerData, setBannerData] = useState({
     category: '',
-    imageUrl: '',
+    image: '',
   })
   const [success, setSuccess] = useState(false)
   const addBannerHandler = (e) => {
@@ -15,16 +15,16 @@ const AddBanner = () => {
 
   let graphqlQuery = {
     query: `
-    mutation CreateBanner($category: String!, $imageUrl: String!) {
-      createBanner(bannerInput: {category: $category, imageUrl: $imageUrl}) {
+    mutation CreateBanner($category: String!, $image: String!) {
+      createBanner(bannerInput: {category: $category, image: $image}) {
         category
-        imageUrl
+        image
       }
     }
   `,
     variables: {
       category: bannerData.category,
-      imageUrl: bannerData.imageUrl,
+      image: bannerData.image,
     }
   };
 
@@ -41,7 +41,7 @@ const AddBanner = () => {
     .then(result => {
         setBannerData({
         category: "",
-        imageUrl: "",
+        image: "",
       })
 
       setTimeout(() => {
@@ -102,10 +102,10 @@ const AddBanner = () => {
         type='text'
         className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
         placeholder='Image url'
-        name="imageUrl"
+        name="image"
         required
-        value={bannerData.imageUrl}
-        onChange={bannerInputHandler.bind(this, 'imageUrl')}
+        value={bannerData.image}
+        onChange={bannerInputHandler.bind(this, 'image')}
       />
 
     

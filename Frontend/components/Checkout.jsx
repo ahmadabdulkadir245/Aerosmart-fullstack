@@ -6,8 +6,7 @@ import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../slices/cartSlice';
 import { removeFromOrder } from '../slices/orderSlice';
 
-function Checkout({ id, title, price, key, productQty, image, cartTotal }) {
-  console.log(  `this is the ID of the product to be removed ${id}`)
+function Checkout({ id, title, price, key, productQty, image }) {
   const dispatch = useDispatch();
   const removeItemFromOrders = () => {
     dispatch(removeFromOrder({id}))

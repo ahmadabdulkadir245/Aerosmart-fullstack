@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
 import Header from "../../components/Header"
-import { GRAPHQL_URL } from '../../lib/constants'
+import { GRAPHQL_URL, IMAGE_URL } from '../../lib/constants'
 
 
 const AddProduct = () => {
@@ -13,8 +13,25 @@ const AddProduct = () => {
     description: ''
   })
   const [success, setSuccess] = useState(false)
+  const [image, setImage] = useState(null)
+  const fileUploadHandler = (event) => {
+    setImage(event.target.files[0])
+     };
   const addProductHandler = (e) => {
     e.preventDefault()
+    const formData = new FormData();
+    formData.append('file', image);
+
+    fetch(IMAGE_URL, {
+      method: 'POST',
+      body: formData
+    })   
+    .then(res => res.json())
+    .then(fileResData => {
+      let image
+      return  image = fileResData.filePath || 'undefined';
+    }).then(image => {
+
 
   let graphqlQuery = {
     query: `
@@ -30,7 +47,7 @@ const AddProduct = () => {
     variables: {
       title: productData.title,
       price:Number(productData.price),
-      imageUrl: productData.imageUrl,
+      imageUrl: image,
       description: productData.description,
     }
   };
@@ -50,7 +67,6 @@ const AddProduct = () => {
         title: "",
         price: "",
         quantity: "",
-        imageUrl: "",
         description: ""
       })
 
@@ -61,19 +77,9 @@ const AddProduct = () => {
         setSuccess(false)
       }, 8000);
     })
+    })
 
-    // .then(resData => {
-    //   console.log(resData)
-    //   const products = {
-    //     title: resData.data.createProduct.title,
-    //     price: resData.data.createProduct.price,
-    //     imageUrl: resData.data.createProduct.imageUrl,
-    //     description: resData.data.createProduct.description,
-    //   };
-    //   return {
-    //     products: products,
-    //   }
-    // })
+
     .catch(err => console.log(err))
 }
 
@@ -89,12 +95,11 @@ const AddProduct = () => {
       });
     };
 
-    // console.log(productData)
 
   return (
     <>
     <Header/>
-    <div classname="">
+    <div className="">
 
           <Head>
            {/* fonts import */}
@@ -141,13 +146,13 @@ const AddProduct = () => {
       </div>
 
       <input
-        type='text'
+        type='file'
         className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
         placeholder='image url'
         name="imageUrl"
         required
-        value={productData.imageUrl}
-        onChange={productInputHandler.bind(this, 'imageUrl')}
+        // value={productData.imageUrl}
+        onChange={fileUploadHandler}
       />
 
     <textarea cols={1} rows={8}  className="text-gray-500 border-[1px] lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8" placeholder="description" name="description"

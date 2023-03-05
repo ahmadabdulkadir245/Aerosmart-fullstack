@@ -45,7 +45,6 @@ function CheckoutPage() {
               price={product.price}
               description={product.description}
               productQty={qty}
-              cartTotal={orderTotal}
               image={product.image}
             />
           )

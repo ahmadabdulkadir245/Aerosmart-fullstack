@@ -36,7 +36,7 @@ const ProductFeed = () => {
         recievedData.reverse()
         setProducts(recievedData)
       })
-  }, [products])
+  }, [])
 
   
   return (

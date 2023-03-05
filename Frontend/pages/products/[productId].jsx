@@ -21,7 +21,6 @@ function Product({product}) {
       description: product.description,
       image: product.imageUrl,
     };
-    console.log(Product)
     dispatch(addToCart(Product));
 
     if(checkout == true) {
@@ -39,13 +38,13 @@ function Product({product}) {
 
       <div className="flex items-center space-x-3 my-3">
       <div className="relative   w-[80px] h-[60px]  overflow-hidden rounded-md">
-        <Image src={product.imageUrl} alt={product.title}  fill  className=""/>
+        <Image src={product.imageUrl} alt={product.title} layout="fill" objectFit="cover"/>
       </div>
       <div className="relative   w-[80px] h-[60px]  overflow-hidden rounded-md">
-        <Image src={product.imageUrl} alt={product.title}  fill  className=""/>
+        <Image src={product.imageUrl} alt={product.title} layout="fill" objectFit="cover"/>
       </div>
       <div className="relative   w-[80px] h-[60px]  overflow-hidden rounded-md">
-        <Image src={product.imageUrl} alt={product.title}  fill  className=""/>
+        <Image src={product.imageUrl} alt={product.title} layout="fill" objectFit="cover"/>
       </div>
       </div>
 
@@ -53,8 +52,8 @@ function Product({product}) {
         <div className="pt-1">
           <h3 className=" font-titilliumWeb  font-semibold uppercase text-sm">{product.title}</h3>
         </div>
-        <span className="bg-yellow-100 flex items-center space-x-1 p-1 font-changa  rounded-md">
-              <AiFillStar className="text-yellow-400 w-4 h-4"/>
+        <span className="bg-yellow-100 flex items-center space-x-1 px-1 font-changa  rounded-sm">
+              <AiFillStar className="text-yellow-400 w-3 h-3"/>
               <p className="text-yellow-400 text-sm">4.5</p>
         </span>
       </div>

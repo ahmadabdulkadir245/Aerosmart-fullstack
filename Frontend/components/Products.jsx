@@ -15,8 +15,8 @@ const Products = ({ id, title, price, description, image }) => {
     const dispatch = useDispatch();
     const addProductToCart = () => {
       const Product = {
-        id,
         title,
+        id,
         price,
         description,
         image,
@@ -31,7 +31,7 @@ const Products = ({ id, title, price, description, image }) => {
               {/* <p className='absolute top-2 right-2 text-xs italic text-gray-400 z-20'>
                 {category}
               </p> */}
-              <div className='relative w-full h-[140px]  overflow-hidden rounded-t-md'>
+              <div className='relative w-full h-[160px]  overflow-hidden rounded-t-md'>
                 <Image src={image} alt={image} layout="fill" objectFit="cover" />
               </div>
           </Link>

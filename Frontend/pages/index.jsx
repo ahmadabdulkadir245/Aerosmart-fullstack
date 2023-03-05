@@ -4,9 +4,11 @@ import Header from '../components/Header'
 import Banner from '../components/Banner'
 import Footer from '../components/Footer'
 import CategoryIcons from '../components/CategoryIcons'
+import SectionSlider from '../components/SectionSlider'
 import ProductFeed from '../components/ProductFeed'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import GridSectionSlider from '../components/GridSectionSlider'
 
 export default function Home() {
   const router = useRouter()
@@ -29,6 +31,15 @@ export default function Home() {
       <Header/>
      <Banner/>
      <CategoryIcons/>
+     <SectionSlider sectionTitle={'latest products'}/>
+     <GridSectionSlider sectionTitle={'top selling products'} />
+     <div className="px-2 mt-7 mb-3">
+     <div className="uppercase bg-gray-300 p-2 text-gray-700 rounded-md">
+      <h2 className="text-center ">
+        Products
+      </h2>
+     </div>
+     </div>
      <ProductFeed/>
      <Footer />
      </main>

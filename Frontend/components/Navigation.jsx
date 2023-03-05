@@ -5,13 +5,15 @@ import { MdClear } from "react-icons/md";
 import SideBar from "./SideBar"
 import {  AiOutlineShoppingCart} from "react-icons/ai";
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import router from 'next/router'
 import { useRecoilState } from 'recoil';
 import { navState } from '../atoms/navHandler';
 import { useDispatch, useSelector } from "react-redux"
 import { selectedcartItems } from '../slices/cartSlice';
 import { addSearchedWord } from '../slices/searchSlice';
+import MobileNav from './MobileNav';
+import SearchSuggesstions from './SearchSuggesstions';
 
 
 const items = []
@@ -26,12 +28,29 @@ function Navigation() {
       setOpenSideBar(false);
     };
   const [showSearch, setShowSearch] = useState(false);
+
+  const showSearchHandler = () => {
+      setShowSearch(!showSearch)
+  }
+
   dispatch(addSearchedWord(searchWord));
 
   const searchHandler = (e) => {
     const word = e.target.value;
     setSearchWord(word);
   };
+
+  const clearSearchHandler = (e) => {
+    setSearchWord('');
+  };
+
+
+  const pressToSearchHandler = (suggesstion) => {
+    if(suggesstion) {
+      return router.push(`/search/${suggesstion}`)
+    }
+    router.push(`/search/${searchWord}`)
+  }
   const productInCart = useSelector(selectedcartItems)
 
   return (
@@ -39,7 +58,7 @@ function Navigation() {
 {/* sidebar menu */}
 <SideBar openSideBar={openSideBar} showSearch={showSearch} />
     {/* navigation */}
-  <nav className={`flex items-center justify-between flex-wrap bg-gray-50 py-4 ${showSearch ? '': 'shadow-lg'}  lg:shadow-lg px-[10px] lg:px-[50px]`}>
+  <nav className={`flex items-center justify-between flex-wrap bg-gray-50 py-4 ${showSearch ? '': 'shadow-lg'}  lg:shadow-lg px-[10px] lg:px-[50px] `}>
   
     {/* Logo */}
     <div className="flex items-center space-x-2">
@@ -68,7 +87,9 @@ function Navigation() {
                   placeholder='search on Aerosmart'
                   onChange={searchHandler}
                 />
-                <BiSearchAlt className='h-12 w-12 p-3  text-gray-500 transition duration-200 ease-in' />
+                <BiSearchAlt className='h-12 w-12 p-3  text-gray-500 transition duration-200 ease-in' 
+                onClick={pressToSearchHandler}
+                />
                 
               </div>
 
@@ -77,7 +98,7 @@ function Navigation() {
                 <div className='flex space-x space-x-6 items-center'>
                   <BiSearchAlt
                     className={`  lg:hidden w-6 h-6 lg:w-7 lg:h-7 ${showSearch ? 'hidden': ''}`}
-                // onClick={showSearchHandeler}
+                onClick={showSearchHandler}
                   />
                   <Link href='/login'>
                      <div className='hover:text-[#f7b32b] transition-all duration-500 linear'>
@@ -103,34 +124,12 @@ function Navigation() {
                 </div>
               </div>
 
-
   </nav>
                  {/* search for mobile */}
-            {showSearch ? (
-              <div className='lg:hidden bg-gray-50 pt-2 pb-4 px-[10px] -mt-3 shadow-lg'>
-                <div className='flex items-center m-auto h-12 rounded-md flex-grow cursor-pointer bg-yellow-400  hover:bg-yellow-400'>
-                  <input
-                    type='text'
-                    className='px-2 py-[24px] h-full w-6 flex-grow  flex-shrink rounded-l-md focus:outline-none bg-gray-300 font-primary text-gray-700'
-                    placeholder='search on Aerosmart'
-                    value={searchWord}
-                    onChange={searchHandler}
-                  />
-                  {/* {searchWord.length > 0 ? (
-                    <MdClear
-                      className='w-12 h-6 text-white transition duration-200 ease-in'
-                      onClick={clearHandler}
-                    />
-                  ) : ( */}
-                    <BiSearchAlt className='h-12 w-12 p-3  text-gray-500 transition duration-200 ease-in' 
-                  //  onClick={} 
-                    />
-                  {/* )} */}
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
+                  <MobileNav showSearch={showSearch} searchHandler={searchHandler} searchWord={searchWord} pressToSearchHandler={pressToSearchHandler}  />
+
+                  {/* Suggesstions */}
+                 <SearchSuggesstions searchWord={searchWord} pressToSearchHandler={pressToSearchHandler} />
 </div>
   )
   };

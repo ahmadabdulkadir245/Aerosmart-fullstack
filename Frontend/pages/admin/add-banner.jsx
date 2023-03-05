@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
 import Header from "../../components/Header"
-import { GRAPHQL_URL } from '../../lib/constants'
+import { GRAPHQL_URL, IMAGE_URL } from '../../lib/constants'
 
 
 const AddBanner = () => {
@@ -10,46 +10,66 @@ const AddBanner = () => {
     image: '',
   })
   const [success, setSuccess] = useState(false)
+  const [category, setCategory] = useState('')
+  const [image, setImage] = useState(null)
+
+  const fileUploadHandler = (event) => {
+   setImage(event.target.files[0])
+    };
+    
+  
+
   const addBannerHandler = (e) => {
     e.preventDefault()
+    const formData = new FormData();
+    formData.append('file', image);
 
-  let graphqlQuery = {
-    query: `
-    mutation CreateBanner($category: String!, $image: String!) {
-      createBanner(bannerInput: {category: $category, image: $image}) {
-        category
-        image
-      }
-    }
-  `,
-    variables: {
-      category: bannerData.category,
-      image: bannerData.image,
-    }
-  };
-
- fetch(GRAPHQL_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(graphqlQuery)
-  })
-    .then(res => {  
-      return res.json();
-    })
-    .then(result => {
-        setBannerData({
-        category: "",
-        image: "",
-      })
-
-      setTimeout(() => {
-        setSuccess(true)
-      }, 1000);
-      setTimeout(() => {
-        setSuccess(false)
-      }, 8000);
+    fetch(IMAGE_URL, {
+      method: 'POST',
+      body: formData
+    })   
+    .then(res => res.json())
+    .then(fileResData => {
+      let image
+      return  image = fileResData.filePath || 'undefined';
+    }).then(image => {
+      console.log(`This is the image ${image}`)
+      let graphqlQuery = {
+       query: `
+       mutation CreateBanner($category: String!, $image: String!) {
+         createBanner(bannerInput: {category: $category, image: $image}) {
+           category
+           image
+         }
+       }
+     `,
+       variables: {
+         category: category,
+         image: image,
+       }
+     };
+   
+    fetch(GRAPHQL_URL, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(graphqlQuery)
+     })
+       .then(res => {  
+         return res.json();
+       })
+       .then(result => {
+         setCategory('')
+         setImage('')
+   
+         setTimeout(() => {
+           setSuccess(true)
+         }, 1000);
+         setTimeout(() => {
+           setSuccess(false)
+         }, 8000);
+       })
     })
 
     .catch(err => console.log(err))
@@ -67,6 +87,9 @@ const AddBanner = () => {
       });
     };
 
+    const [imageFile, setImageFile] = useState('')
+
+    
     // console.log(bannerData)
 
   return (
@@ -94,11 +117,11 @@ const AddBanner = () => {
         placeholder='Banner category'
         required
         name="category"
-        value={bannerData.category}
-        onChange={bannerInputHandler.bind(this, 'category')}
+        value={category}
+        onChange={e => setCategory(e.target.value)}
       />
      
-      <input
+      {/* <input
         type='text'
         className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
         placeholder='Image url'
@@ -106,6 +129,15 @@ const AddBanner = () => {
         required
         value={bannerData.image}
         onChange={bannerInputHandler.bind(this, 'image')}
+      /> */}
+      <input
+        type='file'
+        className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
+        placeholder='Image url'
+        name="image"
+        required
+        // value={imageFile}
+        onChange={fileUploadHandler}
       />
 
     

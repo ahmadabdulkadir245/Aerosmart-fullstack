@@ -15,6 +15,8 @@ import { Pagination, Navigation, Thumbs } from "swiper";
 
 function Banner() {
   const [banners, setBanners] = useState([])
+  console.log(banners)
+  const page = 1
   useEffect(() => {
     const graphqlQuery = {
       query: `
@@ -29,7 +31,7 @@ function Banner() {
       }
       `
     };
-   fetch(GRAPHQL_URL, {
+   fetch("http://localhost:8000/graphql", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,11 +42,11 @@ function Banner() {
         return res.json();
       })
       .then(bannerData => {
-        const recievedData = bannerData.data?.banners?.banners || []
+        const recievedData = bannerData.data?.banners?.banners
         recievedData.reverse()
         setBanners(recievedData)
       })
-  }, [banners])
+  }, [])
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setTimeout(() => {
@@ -69,6 +71,7 @@ function Banner() {
             <div className='relative h-[35vh] w-[95%] m-auto rounded-md overflow-hidden'>
         {/* <img src={banner.image} alt={banner.title} className='w-full h-full rounded-md object-cover'  /> */}
         <Image src={banner.image} alt={banner.catogory} width={400} height={320} priority objectFit="cover" />
+
         {/* <Image src={banner.image} alt={banner.title} layout='fill' objectFit='cover' priority/> */}
             </div>
       </SwiperSlide>

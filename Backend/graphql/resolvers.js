@@ -74,8 +74,10 @@ module.exports = {
       },
 
       createBanner: async function({ bannerInput }, req) {
-
-        const banner = new Banner(null,  bannerInput.category,bannerInput.imageUrl ,1);
+        // if (bannerInput.image !== 'undefined') {
+        //   bannerInput.image = '/images/solo.png';
+        // }
+        const banner = new Banner(null,  bannerInput.category,bannerInput.image ,1);
 
          await banner.save()
     

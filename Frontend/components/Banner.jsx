@@ -47,7 +47,7 @@ function Banner() {
         setBanners(recievedData)
       })
   }, [])
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
@@ -59,7 +59,7 @@ function Banner() {
     <div className='w-full xl:w-[1024px] flex justify-center m-auto  mt-2 transition-all duration-700 ease-out'>
     {loading ?
     <>
-    <div className="relative h-[35vh] w-[95%] m-auto rounded-md overflow-hidden">
+    <div className="relative h-[150px] w-[95%] m-auto rounded-md overflow-hidden">
     <Swiper
       spaceBetween={30}
       loop={true}
@@ -72,9 +72,9 @@ function Banner() {
     >
         {banners.map(banner => (
         <SwiperSlide key={banner.id} >
-            <div className='relative h-[35vh] w-full m-auto rounded-md overflow-hidden'>
+            <div className='relative h-[150px] w-full m-auto rounded-md overflow-hidden'>
         <Image src={banner.image} 
-        alt={banner.id} width={400} height={320} priority objectFit="cover" />
+        alt={banner.id} width={400} height={200} priority objectFit="cover" />
         {/* <Image src={banner.image} alt={banner.title} layout='fill' objectFit='cover' priority/> */}
             </div>
       </SwiperSlide>

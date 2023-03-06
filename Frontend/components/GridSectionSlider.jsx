@@ -19,7 +19,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
     const router = useRouter()
 
   const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const page = 1
   useEffect(() => {

@@ -33,7 +33,7 @@ export default function Home() {
       <Header/>
       {/* {loading ? */}
       <>
-     <Banner/>
+     {/* <Banner/> */}
      <CategoryIcons/>
      <SectionSlider sectionTitle={'latest products'}/>
      <GridSectionSlider sectionTitle={'top selling products'} />

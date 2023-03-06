@@ -26,7 +26,7 @@ const Products = ({ id, title, price, description, image }) => {
   return (
     <>
       {loading ? (
-        <div className='relative flex flex-col  bg-white z-30 shadow-xl transition-all duration-500 linear rounded-md text-gray-500'>
+        <div className='relative flex flex-col  bg-white z-30 shadow-xl  rounded-md text-gray-500'>
           <Link href={`/products/${id}`}>
               {/* <p className='absolute top-2 right-2 text-xs italic text-gray-400 z-20'>
                 {category}

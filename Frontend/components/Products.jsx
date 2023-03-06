@@ -10,7 +10,7 @@ const Products = ({ id, title, price, description, image }) => {
     useEffect(() => {
       setTimeout(() => {
         setLoading(true);
-      }, 500);
+      }, 400);
     }, []);
     const dispatch = useDispatch();
     const addProductToCart = () => {
@@ -35,7 +35,7 @@ const Products = ({ id, title, price, description, image }) => {
                 <Image src={image} alt={image} layout="fill" objectFit="cover" />
               </div>
           </Link>
-          <h4 className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold '>{title}</h4>
+          <p className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold '>{title}</p>
           <div className='flex  px-2'>
             {/* {Array(rating)
               .fill(1)

@@ -51,7 +51,7 @@ function Banner() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
-    }, 800);
+    }, 400);
   }, []);
 
   

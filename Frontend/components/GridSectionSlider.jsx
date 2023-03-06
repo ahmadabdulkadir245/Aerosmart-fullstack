@@ -25,7 +25,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
   useEffect(() => {
       setTimeout(() => {
         setLoading(true);
-      }, 800)
+      }, 400)
     const graphqlQuery = {
       query: `
       {
@@ -81,8 +81,8 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
       >
         {products.map(product=> (
           <SwiperSlide key={product.id} onClick={() => router.push(`/products/${product.id}`)} >
-             <div className='relative h-[100px] w-full m-auto rounded-md overflow-hidden'>
-                 <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' priority/>
+             <div className='relative h-[100px] w-full m-auto rounded-md overflow-hidden shadow-sm'>
+                 <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' priority />
              </div>
              <div className="capitalize text-xs pt-1 pl-2">
                  <p className="">

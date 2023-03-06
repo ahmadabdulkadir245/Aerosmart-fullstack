@@ -36,7 +36,7 @@ function SearchSuggesstions({searchWord, pressToSearchHandler}) {
           }
           `
         };
-       fetch("http://localhost:8000/graphql", {
+       fetch(GRAPHQL_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

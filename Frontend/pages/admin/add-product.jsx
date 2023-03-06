@@ -14,24 +14,43 @@ const AddProduct = () => {
   })
   const [success, setSuccess] = useState(false)
   const [image, setImage] = useState(null)
+
   const fileUploadHandler = (event) => {
     setImage(event.target.files[0])
      };
+            //  handle and convert it in base 64
+             const handleImage = (e) =>{
+              const file = e.target.files[0];
+              setFileToBase(file);
+          }
+      
+          const setFileToBase = (file) =>{
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onloadend = () =>{
+                  setImage((reader.result));
+              }
+          }
+
   const addProductHandler = (e) => {
     e.preventDefault()
-    const formData = new FormData();
-    formData.append('file', image);
+    // const formData = new FormData();
+    // formData.append('image', image);
 
-    fetch(IMAGE_URL, {
+    fetch(PRODUCT_IMAGE_URL, {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json'
+        },
+      body: JSON.stringify({image: image})
     })   
     .then(res => res.json())
+    // .then(fileResData => {
+    //   let image
+    //   return  image = fileResData.image || 'undefined';
+    // })
     .then(fileResData => {
-      let image
-      return  image = fileResData.filePath || 'undefined';
-    }).then(image => {
-
+      let image = fileResData.image
 
   let graphqlQuery = {
     query: `
@@ -95,6 +114,73 @@ const AddProduct = () => {
       });
     };
 
+    const addProductFileHandler = (e) => {
+      e.preventDefault()
+      const formData = new FormData();
+      formData.append('image', image);
+  
+      fetch("http://localhost:8000/upload", {
+        method: 'POST',
+        body: formData
+      })   
+      .then(res => res.json())
+      .then(fileResData => {
+        let image
+        return  image = fileResData.image || 'undefined';
+      })
+      .then(image => {
+  
+    let graphqlQuery = {
+      query: `
+      mutation CreateProduct($title: String!, $price: Int!, $imageUrl: String!, $description: String!) {
+        createProduct(productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description}) {
+          title
+          price
+          imageUrl
+          description
+        }
+      }
+    `,
+      variables: {
+        title: productData.title,
+        price:Number(productData.price),
+        imageUrl: image,
+        description: productData.description,
+      }
+    };
+  
+   fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(graphqlQuery)
+    })
+      .then(res => {  
+        return res.json();
+      })
+      .then(result => {
+        setProductData({
+          title: "",
+          price: "",
+          quantity: "",
+          description: ""
+        })
+  
+        setTimeout(() => {
+          setSuccess(true)
+        }, 1000);
+        setTimeout(() => {
+          setSuccess(false)
+        }, 8000);
+      })
+      })
+  
+  
+      .catch(err => console.log(err))
+  }
+  
+
 
   return (
     <>
@@ -140,8 +226,8 @@ const AddProduct = () => {
         placeholder='quantity'
         name="quantity"
         required
-        // value={productData.quantity}
-        // onChange={productInputHandler.bind(this, 'quantity')}
+        value={productData.quantity}
+        onChange={productInputHandler.bind(this, 'quantity')}
       />
       </div>
 
@@ -152,7 +238,7 @@ const AddProduct = () => {
         name="imageUrl"
         required
         // value={productData.imageUrl}
-        onChange={fileUploadHandler}
+        onChange={handleImage}
       />
 
     <textarea cols={1} rows={8}  className="text-gray-500 border-[1px] lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8" placeholder="description" name="description"

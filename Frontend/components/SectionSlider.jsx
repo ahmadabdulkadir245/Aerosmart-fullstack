@@ -9,6 +9,7 @@ import 'swiper/css/navigation';
 import Image from 'next/legacy/image';
 import { TbCurrencyNaira } from 'react-icons/tb';
 import { useRouter } from 'next/router';
+import { GRAPHQL_URL } from '../lib/constants';
 
 // import './styles.css';
 
@@ -36,7 +37,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
       }
       `
     };
-   fetch("http://localhost:8000/graphql", {
+   fetch(GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -66,7 +67,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
         {products.map(product=> (
           <SwiperSlide key={product.id} onClick={() => router.push(`/products/${product.id}`)} >
              <div className='relative h-[100px] w-[90%] m-auto rounded-md overflow-hidden'>
-                 <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' priority/>
+                 <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='contain' priority/>
              </div>
              <div className="capitalize text-xs pt-1  flex items-center justify-between m-auto w-[90%]">
                  <p className="">

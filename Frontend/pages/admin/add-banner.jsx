@@ -13,27 +13,45 @@ const AddBanner = () => {
   const [category, setCategory] = useState('')
   const [image, setImage] = useState(null)
 
-  const fileUploadHandler = (event) => {
-   setImage(event.target.files[0])
-    };
-    
-  
+  // const handleImage = (event) => {
+  //   setImage(event.target.files[0])
+  //   };
 
-  const addBannerHandler = (e) => {
+        // handle and convert it in base 64
+        const handleImage = (e) =>{
+          const file = e.target.files[0];
+          setFileToBase(file);
+      }
+  
+      const setFileToBase = (file) =>{
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () =>{
+              setImage((reader.result));
+          }
+      }
+  
+  const addBannerHandler =  (e) => {
     e.preventDefault()
     const formData = new FormData();
-    formData.append('file', image);
+    formData.append('image', image);
 
-    fetch(IMAGE_URL, {
+    fetch(GRAPHQL_URL, {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json'
+        },
+      body: JSON.stringify({image: image})
     })   
     .then(res => res.json())
+    // .then(fileResData => {
+    //   let image
+    //   console.log(fileResData)
+    //   return  image = fileResData.image || 'undefined';
+    // })
     .then(fileResData => {
-      let image
-      return  image = fileResData.filePath || 'undefined';
-    }).then(image => {
-      console.log(`This is the image ${image}`)
+      let image = fileResData.image
+
       let graphqlQuery = {
        query: `
        mutation CreateBanner($category: String!, $image: String!) {
@@ -87,8 +105,6 @@ const AddBanner = () => {
       });
     };
 
-    const [imageFile, setImageFile] = useState('')
-
     
     // console.log(bannerData)
 
@@ -137,7 +153,7 @@ const AddBanner = () => {
         name="image"
         required
         // value={imageFile}
-        onChange={fileUploadHandler}
+        onChange={handleImage}
       />
 
     

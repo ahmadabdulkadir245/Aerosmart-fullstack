@@ -26,13 +26,13 @@ const Products = ({ id, title, price, description, image }) => {
   return (
     <>
       {loading ? (
-        <div className='relative flex flex-col  bg-white z-30 shadow-xl  rounded-md text-gray-500'>
+        <div className='relative flex flex-col  bg-white z-30 shadow-xl rounded-md text-gray-500'>
           <Link href={`/products/${id}`}>
               {/* <p className='absolute top-2 right-2 text-xs italic text-gray-400 z-20'>
                 {category}
               </p> */}
               <div className='relative w-full h-[160px]  overflow-hidden rounded-t-md'>
-                <Image src={image} alt={image} layout="fill" objectFit="cover" />
+                {/* <Image src={image} alt={image} layout="fill" objectFit="cover" /> */}
               </div>
           </Link>
           <p className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold '>{title}</p>

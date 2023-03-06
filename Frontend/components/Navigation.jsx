@@ -74,13 +74,13 @@ function Navigation() {
       
       </div>
       <div className="text-xl lg:text-2xl font-changa text-gray-500" onClick={() => router.push("/")}>
-      AERO<span className='text-yellow-400'>SMART</span>
+      AERO<span className='text-yellow-500'>SMART</span>
       </div>
       
       </div>
 
      {/* search for Desktop */}
-              <div className='hidden lg:flex items-center  h-10 rounded-md max-w-3xl flex-grow cursor-pointer bg-yellow-400  hover:bg-[#f7b32b] transition-all duration-500 linear'>
+              <div className='hidden lg:flex items-center  h-10 rounded-md max-w-3xl flex-grow cursor-pointer bg-yellow-500  hover:bg-[#f7b32b] transition-all duration-500 linear'>
                 <input
                   type='text'
                   className='py-5 px-4 h-full w-6 flex-grow  flex-shrink rounded-l-sm focus:outline-none bg-gray-300 font-play text-gray-700'

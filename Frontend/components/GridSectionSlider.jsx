@@ -19,8 +19,13 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
     const router = useRouter()
 
   const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
+
   const page = 1
   useEffect(() => {
+         setTimeout(() => {
+        setLoading(true);
+      }, 500)
     const graphqlQuery = {
       query: `
       {
@@ -52,6 +57,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
         setProducts(recievedData)
       })
   }, [])
+  const loadingContent = [1,2,3,4,5, 6,7,8, 9, 10, 11,12,13]
 
 
 
@@ -62,6 +68,8 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
           <p className="font-bold uppercase ">{sectionTitle}</p>
           <p className="capitalize text-xs ">see All items</p>
       </div>
+      {loading ?
+      <>
       <Swiper
     slidesPerView={3}
     grid={{
@@ -84,7 +92,31 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
           </SwiperSlide>
         ))}
       </Swiper>
+      </>
+      :
+      <>
+      <Swiper     
+      slidesPerView={3}
+    grid={{
+      rows: 2,
+    }}
+    modules={[Grid, Pagination]}
+    className="mySwiper">
+      {loadingContent.map((product, index)=> (
+      <SwiperSlide  key={index}>
+      <div className='relative w-[90%] flex flex-col  bg-white z-30 shadow-xl transition-all duration-500 linear animate-pulse'>
+        <div className='absolute h-full w-10  bg-white pulse overflow-hidden z-[40] rounded-md'></div>
+        <div className='relative w-full h-[100px] bg-gray-300  overflow-hidden '></div>
 
+        <div className='my-1 ml-1   h-3 w-[65%] bg-gray-300 rounded-md'></div>
+
+      <div className='my-1 ml-1   h-2 w-[50%] bg-gray-300 rounded-md'></div>
+      </div>
+      </SwiperSlide>
+        ))}
+      </Swiper>
+  </>
+   }
     </div>
   );
 }

@@ -106,7 +106,6 @@ const AddBanner = () => {
     };
 
     
-    // console.log(bannerData)
 
   return (
     <>

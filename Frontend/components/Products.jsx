@@ -53,7 +53,7 @@ const Products = ({ id, title, price, description, image }) => {
             </div>
           )} */}
           <button
-            className=' mt-1 mx-auto bg-yellow-400 p-2 w-[90%] text-white rounded-md  uppercase mb-2 text-xs'
+            className=' mt-1 mx-auto bg-yellow-500 p-2 w-[90%] text-white rounded-md  uppercase mb-2 text-xs'
             onClick={addProductToCart}
           >
             Add To Cart

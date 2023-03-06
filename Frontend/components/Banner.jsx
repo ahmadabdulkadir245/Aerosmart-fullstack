@@ -53,6 +53,8 @@ function Banner() {
       setLoading(true);
     }, 500);
   }, []);
+
+  
   return (
     <div className='w-full xl:w-[1024px] flex justify-center m-auto  mt-2 transition-all duration-700 ease-out'>
     {loading ?
@@ -69,7 +71,8 @@ function Banner() {
         {banners.map(banner => (
         <SwiperSlide key={banner.id} >
             <div className='relative h-[35vh] w-[95%] m-auto rounded-md overflow-hidden'>
-        <Image src={banner.image} alt={banner.catogory} width={400} height={320} priority objectFit="cover" />
+        <Image src={banner.image} 
+        alt={banner.id} width={400} height={320} priority objectFit="cover" />
         {/* <Image src={banner.image} alt={banner.title} layout='fill' objectFit='cover' priority/> */}
             </div>
       </SwiperSlide>

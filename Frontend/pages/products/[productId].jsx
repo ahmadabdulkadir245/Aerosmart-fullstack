@@ -50,7 +50,7 @@ function Product({product}) {
 
       <div className="flex items-center justify-between mt-5">
         <div className="pt-1">
-          <h3 className=" font-titilliumWeb  font-semibold uppercase text-sm">{product.title}</h3>
+          <h2 className=" font-titilliumWeb  font-semibold uppercase text-sm">{product.title}</h2>
         </div>
         <span className="bg-yellow-100 flex items-center space-x-1 px-1 font-changa  rounded-sm">
               <AiFillStar className="text-yellow-400 w-3 h-3"/>
@@ -59,11 +59,11 @@ function Product({product}) {
       </div>
 
       <div>
-        <h2 className="mt-1 capitalize text-sm underline tracking-wider ">description</h2>
+        <h3 className="mt-1 capitalize text-sm underline tracking-wider ">description</h3>
         <p className="text-xs">{product.description} this is text is added to make sure that the description text is up to two lines and if it is more that 4 lines you press the more button to see all text. and a show less link will be added to reduce the list of all descriptions</p>
       </div>
 
-        <h3 >Colors</h3>
+        <h4 >Colors</h4>
       <div className="flex items-center justify-between my-3">
           <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-full bg-white shadow-sm"></div>

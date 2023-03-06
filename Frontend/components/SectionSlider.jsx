@@ -49,7 +49,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
       })
       .then(productData => {
         const recievedData = productData.data?.products?.products
-        recievedData.reverse()
+        recievedData.reverse() || []
         setProducts(recievedData)
       })
   }, [])

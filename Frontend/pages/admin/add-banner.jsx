@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
 import Header from "../../components/Header"
-import { GRAPHQL_URL, IMAGE_URL } from '../../lib/constants'
+import { GRAPHQL_URL , BANNER_IMAGE_URL} from '../../lib/constants'
 
 
 const AddBanner = () => {
@@ -36,7 +36,7 @@ const AddBanner = () => {
     const formData = new FormData();
     formData.append('image', image);
 
-    fetch(GRAPHQL_URL, {
+    fetch(BANNER_IMAGE_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

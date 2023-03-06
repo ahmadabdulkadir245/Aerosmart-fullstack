@@ -4,6 +4,7 @@ import { CiShoppingCart } from 'react-icons/ci'
 import { GiConcreteBag, GiOpeningShell, GiWoodBeam } from 'react-icons/gi'
 import SideBarLink from './SideBarLink'
 import { MdAdminPanelSettings, MdConstruction } from 'react-icons/md'
+import {  AiOutlineShoppingCart} from "react-icons/ai";
 import { BsBricks } from 'react-icons/bs'
 import { useRecoilState } from 'recoil'
 import { navState } from '../atoms/navHandler'
@@ -31,12 +32,13 @@ function SideBarLinks() {
 
         <SideBarLink Icon={RiUser3Line} title={'my account'} path={'/'}/>
         <SideBarLink Icon={AiOutlineShop} title={'orders'} path={'/checkout'}/>
-        {/* <SideBarLink Icon={CiShoppingCart} title={'cart'} path={'/cart'}/> */}
+        <SideBarLink Icon={AiOutlineShoppingCart} title={'cart'} path={'/cart'}/>
         <SideBarLink Icon={GiWoodBeam} title={'woods'} path={'/'}/>
         <SideBarLink Icon={MdConstruction} title={'metals'} path={'/'}/>
         <SideBarLink Icon={GiConcreteBag} title={'cement'} path={'/'}/>
         <SideBarLink Icon={GiOpeningShell} title={'stones'} path={'/'}/>
         <SideBarLink Icon={BsBricks} title={'bricks'} path={'/'}/>
+        <SideBarLink Icon={MdAdminPanelSettings} title={'add banner image'} path={'/admin/add-banner'}/>
         <SideBarLink Icon={MdAdminPanelSettings} title={'add product'} path={'/admin/add-product'}/>
         <SideBarLink Icon={BsBricks} title={'admin products'} path={'/'}/>
     </div>

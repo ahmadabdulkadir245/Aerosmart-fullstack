@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
 import Header from "../../components/Header"
-import { GRAPHQL_URL, IMAGE_URL } from '../../lib/constants'
+import { GRAPHQL_URL, PRODUCT_IMAGE_URL } from '../../lib/constants'
 
 
 const AddProduct = () => {

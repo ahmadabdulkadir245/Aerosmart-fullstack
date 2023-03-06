@@ -2,4 +2,4 @@ export const GRAPHQL_URL ='https://aerosmart-fullstack-backend.onrender.com/grap
 
 export const PRODUCT_IMAGE_URL = 'https://aerosmart-fullstack-backend.onrender.com/upload-product-image'
 
-export const BANNER_IMAGE_URL = 'https://aerosmart-fullstack-backend.onrender.com/upload-product-banner'
+export const BANNER_IMAGE_URL = 'https://aerosmart-fullstack-backend.onrender.com/upload-banner-image'

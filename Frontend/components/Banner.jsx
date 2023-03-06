@@ -51,13 +51,15 @@ function Banner() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
-    }, 500);
+    }, 800);
   }, []);
 
   
   return (
     <div className='w-full xl:w-[1024px] flex justify-center m-auto  mt-2 transition-all duration-700 ease-out'>
     {loading ?
+    <>
+    <div className="relative h-[35vh] w-[95%] m-auto rounded-md overflow-hidden">
     <Swiper
       spaceBetween={30}
       loop={true}
@@ -70,7 +72,7 @@ function Banner() {
     >
         {banners.map(banner => (
         <SwiperSlide key={banner.id} >
-            <div className='relative h-[35vh] w-[95%] m-auto rounded-md overflow-hidden'>
+            <div className='relative h-[35vh] w-full m-auto rounded-md overflow-hidden'>
         <Image src={banner.image} 
         alt={banner.id} width={400} height={320} priority objectFit="cover" />
         {/* <Image src={banner.image} alt={banner.title} layout='fill' objectFit='cover' priority/> */}
@@ -78,6 +80,8 @@ function Banner() {
       </SwiperSlide>
         ))}
     </Swiper>
+    </div>
+        </>
 
   : 
   <div className='relative h-[35vh] w-[95%] m-auto rounded-md bg-gray-400 overflow-hidden animate-pulse transition-all duration-500 linear'>

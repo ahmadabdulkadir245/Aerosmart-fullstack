@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { GRAPHQL_URL } from "../lib/constants";
 
 function SearchSuggesstions({searchWord, pressToSearchHandler}) {
   const [products, setProducts] = useState([])

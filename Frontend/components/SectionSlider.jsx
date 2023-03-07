@@ -76,7 +76,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
         {products.map(product=> (
           <SwiperSlide key={product.id} onClick={() => router.push(`/products/${product.id}`)} >
              <div className='relative h-[100px] w-full m-auto rounded-md overflow-hidden shadow-sm'>
-                 {/* <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' priority/> */}
+                 {/* <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' /> */}
              </div>
              <div className="capitalize text-xs pt-1  flex items-center justify-between m-auto w-[90%] ">
                  <p className="">

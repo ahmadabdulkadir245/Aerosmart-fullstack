@@ -2,6 +2,7 @@ import Head from "next/head"
 import { useState } from "react"
 import Header from "../../components/Header"
 import { GRAPHQL_URL , BANNER_IMAGE_URL} from '../../lib/constants'
+import axios from 'axios'
 
 
 const AddBanner = () => {
@@ -13,45 +14,45 @@ const AddBanner = () => {
   const [category, setCategory] = useState('')
   const [image, setImage] = useState(null)
 
-  // const handleImage = (event) => {
-  //   setImage(event.target.files[0])
-  //   };
+  const handleFileInputChange = (event) => {
+    setImage(event.target.files[0]);
+  };
 
         // handle and convert it in base 64
-        const handleImage = (e) =>{
-          const file = e.target.files[0];
-          setFileToBase(file);
-      }
+      //   const handleImage = (e) =>{
+      //     const file = e.target.files[0];
+      //     setFileToBase(file);
+      // }
   
-      const setFileToBase = (file) =>{
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onloadend = () =>{
-              setImage((reader.result));
-          }
-      }
-  
-  const addBannerHandler =  (e) => {
+  //     const setFileToBase = (file) =>{
+  //         const reader = new FileReader();
+  //         reader.readAsDataURL(file);
+  //         reader.onloadend = () =>{
+  //             setImage((reader.result));
+  //         }
+  //     }
+  // console.log(image)
+  const addBannerHandler = (e) => {
     e.preventDefault()
     const formData = new FormData();
     formData.append('image', image);
 
+    // console.log(`This is the formData to use ${formData}`)
+    
     fetch(BANNER_IMAGE_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-        },
-      body: JSON.stringify({image: image})
+      // headers: {
+      //   'Content-Type': 'multipart/form-data'
+      //   },
+      body: formData
     })   
     .then(res => res.json())
-    // .then(fileResData => {
-    //   let image
-    //   console.log(fileResData)
-    //   return  image = fileResData.image || 'undefined';
-    // })
     .then(fileResData => {
-      let image = fileResData.image
-
+      let image
+      console.log(`This is the file response data ${fileResData}`)
+      return  image = fileResData.image || 'undefined';
+    })
+    .then(image => {
       let graphqlQuery = {
        query: `
        mutation CreateBanner($category: String!, $image: String!) {
@@ -92,6 +93,7 @@ const AddBanner = () => {
 
     .catch(err => console.log(err))
 }
+
 
   
 
@@ -152,7 +154,7 @@ const AddBanner = () => {
         name="image"
         required
         // value={imageFile}
-        onChange={handleImage}
+        onChange={handleFileInputChange}
       />
 
     

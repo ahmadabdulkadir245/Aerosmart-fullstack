@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const { clearImage } = require('./util/file');
 const mime = require('mime');
 const cloudinary = require('./util/cloudinary')
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 
 const db = require('./util/database')
@@ -26,7 +27,7 @@ const morgan = require('morgan');
 const Product = require('./models/product');
 
 
-app.use('/images', express.static(path.join(__dirname, 'public/images'), {
+app.use('/images', express.static(path.join(__dirname, '/images'), {
   setHeaders: function(res, filePath) {
     const mimeType = mime.getType(filePath);
     res.setHeader('Content-Type', mimeType);
@@ -49,6 +50,9 @@ app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));
 
+// Set maximum request size to 10MB
+// app.use(bodyParser.json({ limit: '10mb' }));
+// app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -75,7 +79,66 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const uploadImage =   multer({ storage: fileStorage, fileFilter: fileFilter});
+const multerCloudinaryBannerStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'Aerosmart/banners',
+  },
+  fileFilter: fileFilter
+});
+const multerCloudinaryProductStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'Aerosmart/products',
+  },
+  fileFilter: fileFilter
+});
+
+const cloudinaryBannerUpload = multer({ storage: multerCloudinaryBannerStorage });
+
+const cloudinaryProductUpload = multer({ storage: multerCloudinaryProductStorage });
+
+app.post('/ulpoad-banner-cloudinary', cloudinaryBannerUpload.single('image'), (req, res) => {
+  // Get file details from multer
+  const { originalname, mimetype, size, path } = req.file;
+  if (!req.file) {
+    console.log('Resuqest file doesnt exist')
+  }
+
+  // Upload file to Cloudinary
+  cloudinary.uploader.upload(path, { public_id: originalname }, (error, result) => {
+    if (error) {
+      console.log('Error uploading file to Cloudinary:', error);
+      res.status(500).json({ message: 'Error uploading file to Cloudinary' });
+    } else {
+      console.log('File uploaded to Cloudinary:', result);
+      res.status(200).json({ message: 'File uploaded to Cloudinary', image: result.secure_url });
+    }
+  });
+});
+
+app.post('/ulpoad-product-cloudinary', cloudinaryProductUpload.single('image'), (req, res) => {
+  // Get file details from multer
+  const { originalname, mimetype, size, path } = req.file;
+  if (!req.file) {
+    console.log('Resuqest file doesnt exist')
+  }
+
+  // Upload file to Cloudinary
+  cloudinary.uploader.upload(path, { public_id: originalname }, (error, result) => {
+    if (error) {
+      console.log('Error uploading file to Cloudinary:', error);
+      res.status(500).json({ message: 'Error uploading file to Cloudinary' });
+    } else {
+      console.log('File uploaded to Cloudinary:', result);
+      res.status(200).json({ message: 'File uploaded to Cloudinary', image: result.secure_url });
+    }
+  });
+});
+
+
+
+const uploadImage =   multer({ storage:fileStorage, fileFilter: fileFilter});
 
 app.post("/upload-image", uploadImage.single("image"), function (req, res) {
   if (!req.file) {
@@ -148,27 +211,40 @@ app.post("/upload", uploadImage.single("image"), async  (req, res)  => {
 // // crop: "scale"
 // })
   console.log(image)
-  res.status(201).json({message: 'File Stored',image: "result.secure_url"});
+  res.status(201).json({message: 'File Stored', image: "result.secure_url"});
 });
 
+// Define the storage engine for multer
+const storage = multer.memoryStorage();
 
-// app.use( async (req, res, next) => {
-//   const {  image } = req.body;
-//   try {
-//       const result = await cloudinary.uploader.upload(image, {
-//           folder: "products",
-//           // width: 300,
-//           // crop: "scale"
-//       })
-//       res.status(201).json({
-//           success: true,
-//           imagePath: result.secure_url
-//       })
-//   } catch (error) {
-//       console.log(error);
-//       next(error);
-//   }
-// })
+// Create a multer instance with the storage engine
+const uploadFile = multer({ storage: storage });
+
+app.post('/upload-banner-image-file', uploadImage.single('image'), async (req, res) => {
+    // try {
+      // Get the uploaded file from the request object
+      if (!req.file) {
+        console.log('NO IMAGE UPLOADED')
+      }
+      const file = req.file;
+    console.log(file)
+      // Upload the file to Cloudinary and store it in the "banners" folder
+      // const result = await cloudinary.uploader.upload(file, {
+      //   folder: 'banners',
+      //   use_filename: true,
+      //   unique_filename: false,
+      //   resource_type: 'auto',
+      // });
+    // Send the Cloudinary URL of the uploaded image back to the client
+    res.send({message: 'File Stored', image: "result.secure_url" });
+  } 
+  // catch (error) {
+  //   // Handle errors here
+  //   console.error(error);
+  //   res.status(500).send({ error: 'Something went wrong' });
+  // }
+
+);
 
 
 

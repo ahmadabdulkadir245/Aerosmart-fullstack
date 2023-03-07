@@ -38,8 +38,8 @@ function SideBarLinks() {
         <SideBarLink Icon={GiConcreteBag} title={'cement'} path={'/'}/>
         <SideBarLink Icon={GiOpeningShell} title={'stones'} path={'/'}/>
         <SideBarLink Icon={BsBricks} title={'bricks'} path={'/'}/>
-        <SideBarLink Icon={MdAdminPanelSettings} title={'add banner image'} path={'/admin/add-banner'}/>
         <SideBarLink Icon={MdAdminPanelSettings} title={'add product'} path={'/admin/add-product'}/>
+        <SideBarLink Icon={MdAdminPanelSettings} title={'add banner image'} path={'/admin/add-banner'}/>
         <SideBarLink Icon={BsBricks} title={'admin products'} path={'/'}/>
     </div>
   )

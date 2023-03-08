@@ -15,7 +15,6 @@ import { Pagination, Navigation, Thumbs } from "swiper";
 
 function Banner() {
   const [banners, setBanners] = useState([])
-  console.log(banners)
   const page = 1
   useEffect(() => {
     const graphqlQuery = {
@@ -47,7 +46,7 @@ function Banner() {
         setBanners(recievedData)
       })
   }, [])
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
@@ -74,8 +73,7 @@ function Banner() {
         <SwiperSlide key={banner.id} >
             <div className='relative h-full w-full m-auto rounded-md overflow-hidden'>
         <Image src={banner.image} 
-        alt={banner.id} width={400} height={200} priority objectFit="cover" />
-        <Image src={banner.image} alt={banner.title} layout='fill' objectFit='cover' priority/>
+        alt={banner.id} width={700} height={350} priority layout="responsive"  objectFit="cover" />
             </div>
       </SwiperSlide>
         ))}
@@ -84,7 +82,7 @@ function Banner() {
         </>
 
   : 
-  <div className='relative h-[35vh] w-[95%] m-auto rounded-md bg-gray-400 overflow-hidden animate-pulse transition-all duration-500 linear'>
+  <div className='relative h-[200px] w-[95%] m-auto rounded-md bg-gray-400 overflow-hidden animate-pulse transition-all duration-500 linear'>
   <div className='absolute h-full w-10  bg-white pulse overflow-hidden z-[40]'></div>
           <div className="relative top-[90%] flex  justify-center  space-x-3  bottom-5 ">
             <p className="w-[8px] h-[8px]  rounded-full bg-gray-500"></p>

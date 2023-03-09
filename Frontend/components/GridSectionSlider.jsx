@@ -15,48 +15,9 @@ import { GRAPHQL_URL } from '../lib/constants';
 // install Virtual module
 SwiperCore.use([Virtual, Navigation, Pagination]);
 
- function GridSectionSlider({sectionTitle}) {
+ function GridSectionSlider({sectionTitle, products}) {
     const router = useRouter()
-
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  const page = 1
-  useEffect(() => {
-      setTimeout(() => {
-        setLoading(true);
-      }, 400)
-    const graphqlQuery = {
-      query: `
-      {
-        products(page: ${page}) {
-          products{
-            id
-            title
-            price
-            imageUrl
-            description
-          }
-        }
-      }
-      `
-    };
-   fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(graphqlQuery)
-    })
-      .then(res => {  
-        return res.json();
-      })
-      .then(productData => {
-        const recievedData = productData.data?.products?.products
-        recievedData.reverse() || []
-        setProducts(recievedData)
-      })
-  }, [])
+    const [loading, setLoading] = useState(true)
   const loadingContent = [1,2,3,4,5, 6,7,8, 9, 10, 11,12,13]
 
 
@@ -64,6 +25,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
 
   return (
     <div className='my-5'>
+      
       {loading ?
       <>
       <div className="flex items-center py-2 px-3 justify-between bg-gray-300 p-2 text-gray-700  mb-2 ">
@@ -74,15 +36,15 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
       <Swiper
     slidesPerView={3}
     grid={{
-      rows: 2,
+      rows: 1,
     }}
     modules={[Grid, Pagination]}
     className="mySwiper"
       >
         {products.map(product=> (
           <SwiperSlide key={product.id} onClick={() => router.push(`/products/${product.id}`)} >
-             <div className='relative h-[100px] w-full m-auto rounded-md overflow-hidden shadow-sm'>
-                 {/* <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover'  /> */}
+             <div className='relative h-[100px] w-[90%] m-auto rounded-md overflow-hidden shadow-sm'>
+                 <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover'  priority />
              </div>
              <div className="capitalize text-xs pt-1 pl-2">
                  <p className="">

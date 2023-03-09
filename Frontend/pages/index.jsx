@@ -9,8 +9,9 @@ import ProductFeed from '../components/ProductFeed'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import GridSectionSlider from '../components/GridSectionSlider'
+import { GRAPHQL_URL } from '../lib/constants'
 
-export default function Home() {
+export default function Home({products}) {
   const router = useRouter()
   // const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -35,8 +36,8 @@ export default function Home() {
       <>
      <Banner/>
      <CategoryIcons/>
-     <SectionSlider sectionTitle={'latest products'}/>
-     <GridSectionSlider sectionTitle={'top selling products'} />
+     <SectionSlider sectionTitle={'latest products'} products={products}/>
+     <GridSectionSlider sectionTitle={'top selling products'} products={products} />
      <div className="px-2 mt-7 mb-3">
      <div className="uppercase bg-gray-300 p-2 text-gray-700 rounded-md">
       <h2 className="text-center ">
@@ -55,3 +56,44 @@ export default function Home() {
 
   )
 }
+
+
+export const getServerSideProps = async (context) => {
+  const page = 1
+  const graphqlQuery = {
+    query: `
+    {
+      products(page: ${page}) {
+        products{
+          id
+          title
+          price
+          imageUrl
+          description
+        }
+      }
+    }
+    `
+  };
+   const result = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(graphqlQuery)
+    })
+      .then(res => {  
+        return res.json();
+      })
+      .then(resData => {
+        return resData
+      })
+      .catch(err => console.log(err))
+     
+      const data = await result
+    return {
+      props: {
+        products: data?.data?.products?.products || []
+      }
+    }
+  }

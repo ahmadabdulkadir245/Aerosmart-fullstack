@@ -32,7 +32,7 @@ const Products = ({ id, title, price, description, image }) => {
                 {category}
               </p> */}
               <div className='relative w-full h-[160px]  overflow-hidden rounded-t-md'>
-                {/* <Image src={image} alt={image} layout="fill" objectFit="cover" /> */}
+                <Image src={image} alt={image} layout="fill" objectFit="cover" />
               </div>
           </Link>
           <p className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold '>{title}</p>

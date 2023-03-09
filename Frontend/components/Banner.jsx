@@ -15,8 +15,10 @@ import { Pagination, Navigation, Thumbs } from "swiper";
 
 function Banner() {
   const [banners, setBanners] = useState([])
+    const [swiperLoaded, setSwiperLoaded] = useState(false);
   const page = 1
   useEffect(() => {
+    setSwiperLoaded(true);
     const graphqlQuery = {
       query: `
       {
@@ -58,7 +60,9 @@ function Banner() {
     <div className='w-full xl:w-[1024px] flex justify-center m-auto  mt-2 transition-all duration-700 ease-out'>
     {loading ?
     <>
-    <div className="relative h-[200px] w-[95%] m-auto rounded-md overflow-hidden">
+    <div className="relative h-[200px] w-[95%] m-auto rounded-md overflow-hidden"
+      suppressHydrationWarning
+    >
     <Swiper
       spaceBetween={30}
       loop={true}

@@ -13,6 +13,8 @@ function SearchResultPage({products}) {
     const searchResult = router.query.searchResult
     JSON.stringify(products)
     const searchedProducts = products.filter(product => product.title.toString() == searchResult.toString())
+
+    
     
     
 
@@ -87,7 +89,6 @@ export const getServerSideProps = async () => {
           return res.json();
         })
         .then(resData => {
-        console.log(`this is the array of all product search ${resData.data.products.products}`)
           return resData
         })
         .catch(err => console.log(err))

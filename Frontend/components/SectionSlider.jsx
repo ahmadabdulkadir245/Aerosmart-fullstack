@@ -16,49 +16,14 @@ import { GRAPHQL_URL } from '../lib/constants';
 // install Virtual module
 SwiperCore.use([Virtual, Navigation, Pagination]);
 
- function SectionSlider({sectionTitle}) {
+ function SectionSlider({sectionTitle, products}) {
   const router = useRouter()
   
-  const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const page = 1
-  useEffect(() => {
-      setTimeout(() => {
-        setLoading(true);
-      }, 400);
-    const graphqlQuery = {
-      query: `
-      {
-        products(page: ${page}) {
-          products{
-            id
-            title
-            price
-            imageUrl
-            description
-          }
-        }
-      }
-      `
-    };
-   fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(graphqlQuery)
-    })
-      .then(res => {  
-        return res.json();
-      })
-      .then(productData => {
-        const recievedData = productData.data?.products?.products
-        recievedData.reverse() || []
-        setProducts(recievedData)
-      })
-  }, [])
-
+  
   const loadingContent = [1,2,3,4,5,5,7]
+
+
 
 
 
@@ -69,14 +34,14 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
       <>
       <div className="flex items-center py-2 px-3 justify-between bg-gray-300 p-2 text-gray-700  mb-2 ">
           <p className="font-bold uppercase ">{sectionTitle}</p>
-          <p className="capitalize text-xs">see All items</p>
+          <p className="capitalize text-xs">show all product</p>
       </div>
-        <div className='relative h-[120px] w-full m-auto rounded-md overflow-hidden'>
-     <Swiper watchSlidesProgress={true} slidesPerView={2} className="mySwiper overflow-x-scroll">
+        <div className='relative h-[120px] w-[90%] m-auto rounded-md overflow-hidden'>
+     <Swiper watchSlidesProgress={true} slidesPerView={2} spaceBetween={10} className="mySwiper overflow-x-scroll">
         {products.map(product=> (
-          <SwiperSlide key={product.id} onClick={() => router.push(`/products/${product.id}`)} >
+           <SwiperSlide key={product.id} onClick={() => router.push(`/products/${product.id}`)} > 
              <div className='relative h-[100px] w-full m-auto rounded-md overflow-hidden shadow-sm'>
-                 {/* <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' /> */}
+                 <Image src={product.imageUrl} alt={product.title} layout='fill' objectFit='cover' priority />
              </div>
              <div className="capitalize text-xs pt-1  flex items-center justify-between m-auto w-[90%] ">
                  <p className="">
@@ -84,8 +49,8 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
                  </p>
                  <p className='flex items-center space-x-2'><TbCurrencyNaira  className="w-4 h-4"/>{(product.price).toLocaleString()}</p>
              </div>
-          </SwiperSlide>
-        ))}
+          </SwiperSlide> 
+        ))} 
       </Swiper>
       </div>
         </>

@@ -49,7 +49,6 @@ const AddBanner = () => {
     .then(res => res.json())
     .then(fileResData => {
       let image
-      console.log(`This is the file response data ${fileResData}`)
       return  image = fileResData.image || 'undefined';
     })
     .then(image => {

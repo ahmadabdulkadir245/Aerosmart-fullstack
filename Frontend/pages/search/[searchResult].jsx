@@ -11,7 +11,7 @@ function SearchResultPage({products}) {
     const router = useRouter()
     const searchResult = router.query.searchResult
     JSON.stringify(products)
-    const searchedProducts = products.filter(product => product.title.toString() == searchResult.toString())
+    const searchedProducts = products.filter(product => product.title.toLowerCase() == searchResult.toLowerCase())
 
     
     

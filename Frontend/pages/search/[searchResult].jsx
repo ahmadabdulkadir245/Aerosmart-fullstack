@@ -1,14 +1,13 @@
 import { useRouter } from "next/router"
-import { BiFilter, BiSort } from "react-icons/bi"
+import {  BiSort } from "react-icons/bi"
 import { BsGrid1X2Fill } from "react-icons/bs"
 import { HiOutlineFilter } from "react-icons/hi"
 import Header from "../../components/Header"
 import Products from "../../components/Products"
-import SearchSuggesstions from "../../components/SearchSuggesstions"
+import { GRAPHQL_URL } from "../../lib/constants"
 
 
 function SearchResultPage({products}) {
-    console.log(`this is the array of all product search ${JSON.stringify(products)}`)
     const router = useRouter()
     const searchResult = router.query.searchResult
     JSON.stringify(products)

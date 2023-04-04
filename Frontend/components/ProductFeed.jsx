@@ -21,7 +21,7 @@ const ProductFeed = () => {
       }
       `
     };
-   fetch(GRAPHQL_URL, {
+   fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -33,7 +33,6 @@ const ProductFeed = () => {
       })
       .then(productData => {
         const recievedData = productData.data?.products?.products || []
-        
         recievedData.reverse()
         setProducts(recievedData)
       })
@@ -42,8 +41,7 @@ const ProductFeed = () => {
   
   return (
     <div
-    className='grid grid-cols-2 grid-flow-row-dense md:grid-cols-3 lg:grid-cols-3
-  xl:grid-cols-4 mx-auto m-2 gap-2 px-2 md:px-4'
+    className='grid grid-cols-2 grid-flow-row-dense md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 mx-auto m-2 gap-2 px-2 md:px-4'
   >
     {products.map(({ id, title, price, description, category, imageUrl }) => (
       <Products

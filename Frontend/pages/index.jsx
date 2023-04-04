@@ -75,7 +75,7 @@ export const getServerSideProps = async (context) => {
     }
     `
   };
-   const result = await fetch(GRAPHQL_URL, {
+   const result = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

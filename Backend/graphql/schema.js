@@ -1,18 +1,20 @@
 const { buildSchema } = require('graphql');
 module.exports = buildSchema(`
     type Banner {
-        id:ID
+        id: Int
         image: String!
         category: String!
         userId: ID
     }
 
     type Product {
-        id: ID
+        id: Int
         title: String!
         price: Int!
         imageUrl: String!
         description: String!
+        category: String!
+        quantity: Int!
         creator: ID!
         createdAt: String!
         updatedAt: String!
@@ -53,11 +55,13 @@ module.exports = buildSchema(`
     }
 
     input ProductInputData {
-        userId: ID
+        userId: Int
         title: String
         price: Int
         imageUrl: String
         description: String
+        category: String
+        quantity: Int
     }
 
     type RootQuery {
@@ -74,7 +78,7 @@ module.exports = buildSchema(`
         createBanner(bannerInput: BannerInputData): Banner!
         createProduct(productInput: ProductInputData): Product!
         updateProduct(id: ID!, productInput: ProductInputData): Product!
-        deleteProduct(id: ID!): Boolean
+        deleteProduct(id: Int): Boolean
         updateStatus(status: String!): User!
     }
 

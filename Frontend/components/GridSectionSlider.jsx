@@ -9,7 +9,6 @@ import 'swiper/css/navigation';
 import Image from 'next/legacy/image';
 import { TbCurrencyNaira } from 'react-icons/tb';
 import { useRouter } from 'next/router';
-import { GRAPHQL_URL } from '../lib/constants';
 
 
 // install Virtual module

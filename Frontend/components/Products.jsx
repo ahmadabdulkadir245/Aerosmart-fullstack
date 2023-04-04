@@ -30,7 +30,7 @@ const Products = ({ id, title, price, description, image }) => {
           <Link href={`/products/${id}`}>
               {/* <p className='absolute top-2 right-2 text-xs italic text-gray-400 z-20'>
                 {category}
-              </p> */}
+              </p> */}  
               <div className='relative w-full h-[160px]  overflow-hidden rounded-t-md'>
                 <Image src={image} alt={image} layout="fill" objectFit="cover" />
               </div>
@@ -43,7 +43,10 @@ const Products = ({ id, title, price, description, image }) => {
                 <StarIcon key={id} className='h-4 text-yellow-500' />
               ))} */}
           </div>
-          <p className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  font-semibold'>{description} this text is add to increase the description text amount</p>
+        <div className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  font-semibold'>
+        <p  dangerouslySetInnerHTML={{ __html: description }} 
+      />
+        </div>
           <div className='  font-primary px-2 text-gray-500 flex items-center space-x-1 text-xs font-semibold mt-[2px]'>
             <TbCurrencyNaira  className="w-4 h-4"/>{price.toLocaleString()}
           </div>

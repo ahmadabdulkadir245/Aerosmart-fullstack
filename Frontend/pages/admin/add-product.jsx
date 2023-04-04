@@ -1,47 +1,83 @@
 import Head from "next/head"
-import { useState } from "react"
 import Header from "../../components/Header"
-import { GRAPHQL_URL, PRODUCT_IMAGE_URL } from '../../lib/constants'
+
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading ...</p>,
+})
+
+const modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { header: '3' }, { font: [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' },
+    ],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+}
+
+import 'react-quill/dist/quill.snow.css';
+import { useRouter } from "next/router";
 
 
-const AddProduct = () => {
+
+const AddProduct = () => { 
+  const router = useRouter()
+  const {prodId,  title, imageUrl, category, price, description, quantity} = router.query;
+  const [isUpdate, setIsUpdate] = useState(false)
+  useEffect(() => {
+    if(prodId) {
+      setProductData({
+        title: title,
+        price: price,
+        category: category,
+        quantity: Number(quantity),
+        imageUrl: imageUrl,
+        description: description
+      })
+    }
+  }, [prodId, title, price, category, quantity, imageUrl, description])
+  
+
   const [productData, setProductData] = useState({
-    title: '',
-    price: '',
-    quantity: '',
-    imageUrl: '',
-    description: ''
+    title:  "",
+    price:  "",
+    category:  "",
+    quantity:  "",
+    imageUrl:  "",
+    description:  "",
   })
+  console.log(productData)
   const [success, setSuccess] = useState(false)
   const [image, setImage] = useState(null)
+  const [content, setContent] = useState('');
+  const [isDraft, setIsDraft] = useState(true);
+  const [isPublished, setIsPublished] = useState(false);
 
   const handleFileInputChange = (event) => {
     setImage(event.target.files[0]);
   };
-            //  handle and convert it in base 64
-          //    const handleImage = (e) =>{
-          //     const file = e.target.files[0];
-          //     setFileToBase(file);
-          // }
-      
-          // const setFileToBase = (file) =>{
-          //     const reader = new FileReader();
-          //     reader.readAsDataURL(file);
-          //     reader.onloadend = () =>{
-          //         setImage((reader.result));
-          //     }
-          // }
 
   const addProductHandler = (e) => {
     e.preventDefault()
     const formData = new FormData();
     formData.append('image', image);
 
-    fetch(PRODUCT_IMAGE_URL, {
+    fetch(process.env.NEXT_PUBLIC_PRODUCT_IMAGE_URL, {
       method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      //   },
       body: formData
     })   
     .then(res => res.json())
@@ -50,26 +86,31 @@ const AddProduct = () => {
       return  image = fileResData.image || 'undefined';
     })
     .then(image => {
-  let graphqlQuery = {
+
+    let graphqlQuery = {
     query: `
-    mutation CreateProduct($title: String!, $price: Int!, $imageUrl: String!, $description: String!) {
-      createProduct(productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description}) {
+    mutation CreateProduct($title: String!, $price: Int!, $imageUrl: String!, $description: String!, $category: String, $quantity: Int) {
+      createProduct(productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description, category: $category, quantity: $quantity}) {
         title
         price
         imageUrl
         description
+        category
+        quantity
       }
     }
   `,
     variables: {
       title: productData.title,
       price:Number(productData.price),
+      quantity:Number(productData.quantity),
+      category: productData.category,
       imageUrl: image,
-      description: productData.description,
+      description: content,
     }
   };
 
- fetch(GRAPHQL_URL, {
+ fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -84,8 +125,9 @@ const AddProduct = () => {
         title: "",
         price: "",
         quantity: "",
-        description: ""
+        category: ""
       })
+      setContent("")
 
       setTimeout(() => {
         setSuccess(true)
@@ -95,14 +137,13 @@ const AddProduct = () => {
       }, 8000);
     })
     })
-
-
     .catch(err => console.log(err))
 }
 
-  
+const updateDataHandler = () => {
 
-    const isUpdate = false
+}
+
     const productInputHandler = (inputIdentifier, e) => {
       setProductData((currentInputs) => {
         return {
@@ -111,74 +152,6 @@ const AddProduct = () => {
         };
       });
     };
-
-    const addProductFileHandler = (e) => {
-      e.preventDefault()
-      const formData = new FormData();
-      formData.append('image', image);
-  
-      fetch("http://localhost:8000/upload", {
-        method: 'POST',
-        body: formData
-      })   
-      .then(res => res.json())
-      .then(fileResData => {
-        let image
-        return  image = fileResData.image || 'undefined';
-      })
-      .then(image => {
-  
-    let graphqlQuery = {
-      query: `
-      mutation CreateProduct($title: String!, $price: Int!, $imageUrl: String!, $description: String!) {
-        createProduct(productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description}) {
-          title
-          price
-          imageUrl
-          description
-        }
-      }
-    `,
-      variables: {
-        title: productData.title,
-        price:Number(productData.price),
-        imageUrl: image,
-        description: productData.description,
-      }
-    };
-  
-   fetch(GRAPHQL_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(graphqlQuery)
-    })
-      .then(res => {  
-        return res.json();
-      })
-      .then(result => {
-        setProductData({
-          title: "",
-          price: "",
-          quantity: "",
-          description: ""
-        })
-  
-        setTimeout(() => {
-          setSuccess(true)
-        }, 1000);
-        setTimeout(() => {
-          setSuccess(false)
-        }, 8000);
-      })
-      })
-  
-  
-      .catch(err => console.log(err))
-  }
-  
-
 
   return (
     <>
@@ -191,7 +164,7 @@ const AddProduct = () => {
       </Head>
 
 
-    <form  >
+    <form  className="px-[10px]">
       <h2 className="text-center text-xl uppercase text-gray-500  my-5 [word-spacing: 10px] ">
         {isUpdate ? 'update product' : 'add product'}
         <div className="w-[120px] h-[1px] bg-yellow-500 m-auto"></div>
@@ -201,17 +174,17 @@ const AddProduct = () => {
       }
           <input
         type='text'
-        className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
+        className='bg-gray-200 lg:border-[1px] rounded-lg  outline-none px-4 py-[16px] w-full  m-auto flex mb-5 lg:my-5'
         placeholder='product name'
         required
         name="title"
         value={productData.title}
         onChange={productInputHandler.bind(this, 'title')}
       />
-      <div className="flex">
+      <div className="flex space-x-4 mb-5">
       <input
         type='number'
-        className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[42%]  m-auto flex  lg:my-8'
+        className='bg-gray-200 lg:border-[1px] rounded-lg  outline-none px-4 py-[16px] w-[50%]  m-auto flex  lg:my-8'
         placeholder='price'
         name="price"
         required
@@ -220,7 +193,7 @@ const AddProduct = () => {
       />
       <input
         type='number'
-        className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[42%]  m-auto flex  lg:my-8'
+        className='bg-gray-200 lg:border-[1px] rounded-lg  outline-none px-4 py-[16px] w-[50%]  m-auto flex  lg:my-8'
         placeholder='quantity'
         name="quantity"
         required
@@ -230,8 +203,18 @@ const AddProduct = () => {
       </div>
 
       <input
+        type='text'
+        className='bg-gray-200 lg:border-[1px] rounded-lg  outline-none px-4 py-[16px] w-full  m-auto flex mb-5 lg:my-5'
+        placeholder='product category'
+        required
+        name="category"
+        value={productData.category}
+        onChange={productInputHandler.bind(this, 'category')}
+      />
+
+      <input
         type='file'
-        className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
+        className='bg-gray-200 lg:border-[1px] rounded-lg  outline-none px-4 py-[16px] w-full  m-auto flex my-6 lg:my-8'
         placeholder='image url'
         name="imageUrl"
         required
@@ -239,14 +222,16 @@ const AddProduct = () => {
         onChange={handleFileInputChange}
       />
 
-    <textarea cols={1} rows={8}  className="text-gray-500 border-[1px] lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8" placeholder="description" name="description"
-        onChange={productInputHandler.bind(this, 'description')}
-        value={productData.description}
-    ></textarea>
+      <div className="  font-semibold text-gray-500 h-[300px] overflow-y-scroll shadow-md border border-gray-400 rounded-md overflow-hidden">
+      <QuillNoSSRWrapper modules={modules} onChange={setContent} theme="snow" 
+      // value={content}
+        />
+      </div>
+
       {isUpdate ? (
         <button
           className='flex justify-center m-auto mt-5 lg:mt-5  bg-gray-500 w-56 rounded-full text-white  px-2 py-3 2xl:p-3 outline-none transition-all duration-300 ease-in-out hover:bg-[#ffcb05] 2xl:w-[300px] mb-20'
-        //   onClick={updateDataHandler}
+          onClick={updateDataHandler}
         >
           Update
         </button>

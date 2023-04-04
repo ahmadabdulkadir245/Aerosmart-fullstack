@@ -65,15 +65,15 @@ function Navigation() {
       <div className="">
       {openSideBar ? (
                   <MdClear
-                    className='w-6 h-6 text-gray-500 lg:hidden transition-transform duration-500 ease-in-out'
+                    className='w-6 h-6 text-gray-500 lg:hidden transition-transform duration-500 ease-in-out cursor-pointer'
                     onClick={closeNavHandler}
                   />
                 ) : (
-                  <HiOutlineMenuAlt3 className='w-6 h-6 text-gray-500 lg:hidden' onClick={sideBarHandler}/>
+                  <HiOutlineMenuAlt3 className='w-6 h-6 text-gray-500 lg:hidden cursor-pointer' onClick={sideBarHandler}/>
                 )}
       
       </div>
-      <div className="text-xl lg:text-2xl font-changa text-gray-500" onClick={() => router.push("/")}>
+      <div className="text-xl lg:text-2xl font-changa text-gray-500 cursor-pointer" onClick={() => router.push("/")}>
       AERO<span className='text-yellow-500'>SMART</span>
       </div>
       

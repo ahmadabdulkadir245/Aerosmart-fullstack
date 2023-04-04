@@ -9,7 +9,7 @@ const Banner = require('../models/banner_image');
 module.exports = {
     createProduct: async function({ productInput }, req) {
 
-        const product = new Product(null, productInput.title, productInput.imageUrl, productInput.description, productInput.price, "wood", 1);
+        const product = new Product(null, productInput.title, productInput.imageUrl, productInput.description, productInput.price, productInput.category, productInput.quantity, 1);
 
          await product.save()
     
@@ -19,6 +19,8 @@ module.exports = {
           price: product.price,
           imageUrl: product.imageUrl,
           description: product.description,
+          category: product.category,
+          quantity: product.quantity,
           creator: 1,
           // createdAt: createdProduct.createdAt.toISOString(),
           // updatedAt: createdProduct.updatedAt.toISOString()
@@ -41,6 +43,8 @@ module.exports = {
                 id: product.id,
                 title: product.title,
                 price: product.price,
+                category: product.category,
+                quantity: product.quantity,
                 imageUrl: product.imageUrl,
                 description: product.description,
                 createdAt: product.createdAt.toISOString(),
@@ -62,7 +66,7 @@ module.exports = {
         //   error.code = 404;
         //   throw error;
         // }
-        return {
+        return {  
           id: product.id,
           title: product.title,
           price: product.price,
@@ -107,4 +111,9 @@ module.exports = {
           }),
         };
       },
+      deleteProduct: async function( {id}, req) {
+         Product.deleteById(id);
+        console.log(id)
+        return true
+      }
 }

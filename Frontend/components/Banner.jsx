@@ -5,7 +5,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { useEffect, useState } from "react";
 import Image from 'next/legacy/image'
-import { GRAPHQL_URL } from "../lib/constants";
 
 // const banners = BANNERS
 
@@ -32,7 +31,7 @@ function Banner() {
       }
       `
     };
-   fetch(GRAPHQL_URL, {
+   fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

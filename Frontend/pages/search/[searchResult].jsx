@@ -4,7 +4,6 @@ import { BsGrid1X2Fill } from "react-icons/bs"
 import { HiOutlineFilter } from "react-icons/hi"
 import Header from "../../components/Header"
 import Products from "../../components/Products"
-import { GRAPHQL_URL } from "../../lib/constants"
 
 
 function SearchResultPage({products}) {
@@ -12,10 +11,6 @@ function SearchResultPage({products}) {
     const searchResult = router.query.searchResult
     JSON.stringify(products)
     const searchedProducts = products.filter(product => product.title.toLowerCase() == searchResult.toLowerCase())
-
-    
-    
-    
 
   return (
     <>
@@ -77,7 +72,7 @@ export const getServerSideProps = async () => {
         }
         `
       };
-     const result = await fetch(GRAPHQL_URL, {
+     const result = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -12,11 +12,11 @@ function SideBar({ openSideBar, showSearch }) {
   return (
     <>
       {!openSideBar ? (
-        <div className={`lg:hidden fixed top-0 left-0 w-full h-screen  bg-gray-50 transition-transform duration-700 ease-in-out translate-y-full  ${showSearch ? 'mt-[120px]' : 'mt-[60px] '} z-50` }>
+        <div className={`lg:hidden fixed top-0 left-0 w-full h-screen  bg-gray-50 transition-transform duration-700 ease-in-out -translate-x-full  ${showSearch ? 'mt-[120px]' : 'mt-[60px] '} z-50` }>
          <SideBarLinks  />
         </div>
       ) : (
-        <div className={`lg:hidden fixed top-0 left-0 w-full ${showSearch ? 'h-[calc(100vh-60px)]' : 'h-[94vh]'}  bg-gray-50 transition-transform duration-700 ease-in-out translate-y-0  z-50 ${showSearch ? 'mt-[119px]' : 'mt-[60px]'}`}>
+        <div className={`lg:hidden fixed top-0 left-0 w-full ${showSearch ? 'h-[calc(100vh-60px)]' : 'h-[94vh]'}  bg-gray-50 transition-transform duration-700 ease-in-out -translate-x-0  z-50 ${showSearch ? 'mt-[119px]' : 'mt-[60px]'}`}>
          <SideBarLinks/>
         </div>
       )}

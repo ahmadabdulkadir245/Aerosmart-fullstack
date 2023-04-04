@@ -5,7 +5,6 @@ import { CiShoppingCart } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import { GRAPHQL_URL } from '../../lib/constants'
 import { addToCart } from "../../slices/cartSlice";
 
 let prodId
@@ -22,7 +21,6 @@ function Product({product}) {
       image: product.imageUrl,
     };
     dispatch(addToCart(Product));
-
     if(checkout == true) {
       router.push('/checkout')
     }
@@ -60,7 +58,11 @@ function Product({product}) {
 
       <div>
         <h3 className="mt-1 capitalize text-sm underline tracking-wider ">description</h3>
-        <p className="text-xs">{product.description} this is text is added to make sure that the description text is up to two lines and if it is more that 4 lines you press the more button to see all text. and a show less link will be added to reduce the list of all descriptions</p>
+        <div className="lg:px-[50px] font-poppins text-gray-700 tracking-wide leading-7 w-full">
+      <article className="prose prose-h1:text-3xl   prose-h1:font-semibold prose-h2:text-2xl  prose-h2:font-semibold prose-h2:mt-[0px] 
+      prose-h2:mb-[24px] prose-headings:capitalize prose-a:text-blue-500 hover:prose-a:text-blue-800 font-poppins" dangerouslySetInnerHTML={{ __html: product.description }} 
+      />
+       </div>
       </div>
 
         <h4 >Colors</h4>
@@ -90,9 +92,7 @@ export default Product
 
 
 export const getServerSideProps = async (context) => {
-  // console.log(context)
   const {productId} = context.query
-  console.log(`thsi is the product Id ${productId}`)
   const graphqlQuery = {
     query: `
     {
@@ -105,7 +105,7 @@ export const getServerSideProps = async (context) => {
     }
     `
   };
-   const result = await fetch(GRAPHQL_URL, {
+   const result = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

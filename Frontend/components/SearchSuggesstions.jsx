@@ -37,7 +37,7 @@ function SearchSuggesstions({searchWord, pressToSearchHandler}) {
           }
           `
         };
-       fetch(GRAPHQL_URL, {
+       fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

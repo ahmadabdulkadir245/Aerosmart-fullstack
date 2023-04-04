@@ -1,7 +1,6 @@
 import Head from "next/head"
 import { useState } from "react"
 import Header from "../../components/Header"
-import { GRAPHQL_URL , BANNER_IMAGE_URL} from '../../lib/constants'
 import axios from 'axios'
 
 
@@ -18,32 +17,14 @@ const AddBanner = () => {
     setImage(event.target.files[0]);
   };
 
-        // handle and convert it in base 64
-      //   const handleImage = (e) =>{
-      //     const file = e.target.files[0];
-      //     setFileToBase(file);
-      // }
-  
-  //     const setFileToBase = (file) =>{
-  //         const reader = new FileReader();
-  //         reader.readAsDataURL(file);
-  //         reader.onloadend = () =>{
-  //             setImage((reader.result));
-  //         }
-  //     }
-  // console.log(image)
   const addBannerHandler = (e) => {
     e.preventDefault()
     const formData = new FormData();
     formData.append('image', image);
 
-    // console.log(`This is the formData to use ${formData}`)
     
-    fetch(BANNER_IMAGE_URL, {
+    fetch(process.env.NEXT_PUBLIC_BANNER_IMAGE_URL, {
       method: 'POST',
-      // headers: {
-      //   'Content-Type': 'multipart/form-data'
-      //   },
       body: formData
     })   
     .then(res => res.json())
@@ -67,7 +48,7 @@ const AddBanner = () => {
        }
      };
    
-    fetch(GRAPHQL_URL, {
+    fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json'
@@ -93,9 +74,6 @@ const AddBanner = () => {
     .catch(err => console.log(err))
 }
 
-
-  
-
     const isUpdate = false
     const bannerInputHandler = (inputIdentifier, e) => {
       setBannerData((currentInputs) => {
@@ -106,7 +84,6 @@ const AddBanner = () => {
       });
     };
 
-    
 
   return (
     <>
@@ -136,16 +113,7 @@ const AddBanner = () => {
         value={category}
         onChange={e => setCategory(e.target.value)}
       />
-     
-      {/* <input
-        type='text'
-        className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'
-        placeholder='Image url'
-        name="image"
-        required
-        value={bannerData.image}
-        onChange={bannerInputHandler.bind(this, 'image')}
-      /> */}
+
       <input
         type='file'
         className='border-[1px] text-gray-500 lg:border-[1px] rounded-lg md:rounded-full  border-gray-600 outline-none px-6 py-3 w-[90%]  m-auto flex my-6 lg:my-8'

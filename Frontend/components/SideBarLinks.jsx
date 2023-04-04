@@ -40,7 +40,7 @@ function SideBarLinks() {
         <SideBarLink Icon={BsBricks} title={'bricks'} path={'/'}/>
         <SideBarLink Icon={MdAdminPanelSettings} title={'add product'} path={'/admin/add-product'}/>
         <SideBarLink Icon={MdAdminPanelSettings} title={'add banner image'} path={'/admin/add-banner'}/>
-        <SideBarLink Icon={BsBricks} title={'admin products'} path={'/'}/>
+        <SideBarLink Icon={BsBricks} title={'admin products'} path={'/admin/products'}/>
     </div>
   )
 }

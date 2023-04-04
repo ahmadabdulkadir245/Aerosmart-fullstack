@@ -32,7 +32,8 @@ function ProductAddedToCart({ id, title, productQty, description, image }) {
       </div>
       <div className='col-span-2 '>
         <p className='truncate uppercase text-sm'>{title}</p>
-      <p className="lowercase leading-4 line-clamp-3 text-xs">{description} the description is too short so to make sure its up to two line</p>
+      <p className="lowercase leading-4 line-clamp-3 text-xs">  <p  dangerouslySetInnerHTML={{ __html: description }} 
+      /> </p>
               <div className="flex-nowrap flex justify-between mt-[19px]">
         <div className=' flex justify-between items-center w-32'>
         <div

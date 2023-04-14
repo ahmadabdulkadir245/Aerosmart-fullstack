@@ -37,7 +37,7 @@ function Navigation() {
 
   const searchHandler = (e) => {
     const word = e.target.value;
-    setSearchWord(word);
+    setSearchWord(word.toLowerCase());
   };
 
   const clearSearchHandler = (e) => {

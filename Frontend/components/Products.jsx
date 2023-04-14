@@ -43,7 +43,7 @@ const Products = ({ id, title, price, description, image }) => {
                 <StarIcon key={id} className='h-4 text-yellow-500' />
               ))} */}
           </div>
-        <div className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  font-semibold h-[30px]'>
+        <div className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  h-[30px]'>
         <p  dangerouslySetInnerHTML={{ __html: description }} 
       />
         </div>

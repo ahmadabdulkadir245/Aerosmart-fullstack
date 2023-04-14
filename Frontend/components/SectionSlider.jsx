@@ -27,7 +27,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
 
 
   return (
-    <div className='my-5'>
+    <div className='my-5 lg:hidden'>
       {loading ?
       <>
       <div className="flex items-center py-2 px-3 justify-between bg-gray-300 p-2 text-gray-700  mb-2 ">

@@ -29,7 +29,18 @@ module.exports = class Product {
     return db.execute('SELECT * FROM products');
   }
 
+  static findAndCountAll(limit, offset) {
+    return db.execute(`SELECT * FROM products LIMIT ${limit} OFFSET ${offset}`)
+  }
+
   static findById(id) {
     return db.execute('SELECT * FROM products WHERE products.id = ?', [id]);
+  }
+
+  updateById(id) {
+    return db.execute(
+      'UPDATE products SET title=?, price=?, imageUrl=?, description=?, category=?, quantity=?, userId=? WHERE id = ?',
+      [this.title, this.price, this.imageUrl, this.description, this.category, this.quantity, this.userId, id]
+    );
   }
 };

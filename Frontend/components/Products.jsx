@@ -35,7 +35,7 @@ const Products = ({ id, title, price, description, image }) => {
                 <Image src={image} alt={image} layout="fill" objectFit="cover" />
               </div>
           </Link>
-          <p className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold '>{title}</p>
+          <p className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold line-clamp-1 '>{title}</p>
           <div className='flex  px-2'>
             {/* {Array(rating)
               .fill(1)
@@ -43,7 +43,7 @@ const Products = ({ id, title, price, description, image }) => {
                 <StarIcon key={id} className='h-4 text-yellow-500' />
               ))} */}
           </div>
-        <div className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  font-semibold'>
+        <div className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  font-semibold h-[30px]'>
         <p  dangerouslySetInnerHTML={{ __html: description }} 
       />
         </div>

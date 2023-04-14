@@ -14,12 +14,12 @@ function Cart() {
   const dispatch = useDispatch()
   const cartItems = useSelector(selectedcartItems);
   const cartTotal = useSelector(selectTotal)
-  const checkoutHandler = () => {
+  const checkoutHandler =  () => {
     dispatch(addToOrder(cartItems))
     router.push('/checkout')
     setTimeout(() => {
       dispatch(emptyCart())
-    }, 1000);
+    }, 3000);
   }
   if (cartItems.length === 0) {
     return (

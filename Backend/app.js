@@ -9,6 +9,7 @@ const { clearImage } = require('./util/file');
 const mime = require('mime');
 const cloudinary = require('./util/cloudinary')
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const auth = require('./middleware/auth');
 
 
 const db = require('./util/database')
@@ -50,11 +51,13 @@ app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));
 
-// Set maximum request size to 10MB
-// app.use(bodyParser.json({ limit: '10mb' }));
-// app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+//  Authentication
+app.use(auth)
 
 //   image upload functionality
 const fileStorage = multer.diskStorage({

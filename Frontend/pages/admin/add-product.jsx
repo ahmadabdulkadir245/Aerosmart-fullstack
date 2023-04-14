@@ -36,7 +36,8 @@ import { useRouter } from "next/router";
 
 const AddProduct = () => { 
   const router = useRouter()
-  const {prodId,  title, imageUrl, category, price, description, quantity} = router.query;
+  const [loading, setLoading] = useState(false)
+  const {prodId,  title, oldImage, category, price, description, quantity} = router.query;
   const [isUpdate, setIsUpdate] = useState(false)
   useEffect(() => {
     if(prodId) {
@@ -45,12 +46,15 @@ const AddProduct = () => {
         price: price,
         category: category,
         quantity: Number(quantity),
-        imageUrl: imageUrl,
+        imageUrl: oldImage,
         description: description
       })
+      setImage(oldImage)
+      setContent(description)
+      setIsUpdate(true)
     }
-  }, [prodId, title, price, category, quantity, imageUrl, description])
-  
+  }, [prodId, title, price, category, quantity, oldImage, description])
+
 
   const [productData, setProductData] = useState({
     title:  "",
@@ -60,12 +64,13 @@ const AddProduct = () => {
     imageUrl:  "",
     description:  "",
   })
-  console.log(productData)
   const [success, setSuccess] = useState(false)
   const [image, setImage] = useState(null)
   const [content, setContent] = useState('');
-  const [isDraft, setIsDraft] = useState(true);
-  const [isPublished, setIsPublished] = useState(false);
+  if(prodId) {
+    console.log(image === oldImage)
+  }
+
 
   const handleFileInputChange = (event) => {
     setImage(event.target.files[0]);
@@ -73,13 +78,14 @@ const AddProduct = () => {
 
   const addProductHandler = (e) => {
     e.preventDefault()
+    setLoading(true)
     const formData = new FormData();
     formData.append('image', image);
 
     fetch(process.env.NEXT_PUBLIC_PRODUCT_IMAGE_URL, {
       method: 'POST',
       body: formData
-    })   
+    })
     .then(res => res.json())
     .then(fileResData => {
       let image
@@ -93,10 +99,10 @@ const AddProduct = () => {
       createProduct(productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description, category: $category, quantity: $quantity}) {
         title
         price
+        quantity
+        category
         imageUrl
         description
-        category
-        quantity
       }
     }
   `,
@@ -128,7 +134,7 @@ const AddProduct = () => {
         category: ""
       })
       setContent("")
-
+    setLoading(false)
       setTimeout(() => {
         setSuccess(true)
       }, 1000);
@@ -142,6 +148,127 @@ const AddProduct = () => {
 
 const updateDataHandler = () => {
 
+  setLoading(true)
+  if(image === oldImage){
+    const formData = new FormData();
+    formData.append('image', image);
+
+    fetch(process.env.NEXT_PUBLIC_PRODUCT_IMAGE_URL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(fileResData => {
+      let image
+      return  image = fileResData.image || 'undefined';
+    })
+    .then(image => {
+      let graphqlQuery = {
+        query: `
+        mutation UpdateProduct($id: Int!,$title: String!, $price: Int!, $imageUrl: String!, $description: String!, $category: String, $quantity: Int) {
+          updateProduct(id: $id, productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description, category: $category, quantity: $quantity}) {
+            id
+            title
+            price
+            imageUrl
+            description
+            category
+            quantity
+          }
+        }
+      `,
+        variables: {
+          id: Number(prodId),
+          title: productData.title,
+          price:Number(productData.price),
+          quantity:Number(productData.quantity),
+          category: productData.category,
+          imageUrl: image,
+          description: content
+        }
+      };
+      fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(graphqlQuery)
+      })
+        .then(res => {
+          return res.json();
+        })
+        .then(result => {
+          setProductData({
+            title: "",
+            price: "",
+            quantity: "",
+            category: ""
+          })
+          setContent("")
+        setLoading(false)
+          setTimeout(() => {
+            setSuccess(true)
+          }, 0);
+          setTimeout(() => {
+            setSuccess(false)
+          }, 7000);
+        })
+        .catch(err => console.log(err))
+      })
+  }
+  else {
+    let graphqlQuery = {
+      query: `
+      mutation UpdateProduct($id: Int!,$title: String!, $price: Int!, $imageUrl: String!, $description: String!, $category: String, $quantity: Int) {
+        updateProduct(id: $id, productInput: {title: $title, price: $price, imageUrl: $imageUrl, description: $description, category: $category, quantity: $quantity}) {
+          id
+          title
+          price
+          imageUrl
+          description
+          category
+          quantity
+        }
+      }
+    `,
+      variables: {
+        id: Number(prodId),
+        title: productData.title,
+        price:Number(productData.price),
+        quantity:Number(productData.quantity),
+        category: productData.category,
+        imageUrl: image,
+        description: content
+      }
+    };
+    fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(graphqlQuery)
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(result => {
+        setProductData({
+          title: "",
+          price: "",
+          quantity: "",
+          category: ""
+        })
+        setContent("")
+      setLoading(false)
+        setTimeout(() => {
+          setSuccess(true)
+        }, 0);
+        setTimeout(() => {
+          setSuccess(false)
+        }, 7000);
+      })
+      .catch(err => console.log(err))
+  }
 }
 
     const productInputHandler = (inputIdentifier, e) => {
@@ -152,6 +279,10 @@ const updateDataHandler = () => {
         };
       });
     };
+
+    if(loading) {
+      return <p>Loading</p>
+    }
 
   return (
     <>
@@ -218,12 +349,12 @@ const updateDataHandler = () => {
         placeholder='image url'
         name="imageUrl"
         required
-        // value={productData.imageUrl}
+        // value={image}
         onChange={handleFileInputChange}
       />
 
       <div className="  font-semibold text-gray-500 h-[300px] overflow-y-scroll shadow-md border border-gray-400 rounded-md overflow-hidden">
-      <QuillNoSSRWrapper modules={modules} onChange={setContent} theme="snow" 
+      <QuillNoSSRWrapper modules={modules} onChange={setContent} value={content} theme="snow" 
       // value={content}
         />
       </div>

@@ -4,6 +4,8 @@ import { store } from "../redux-store/store";
 import Header from '../components/Header'
 import '../styles/globals.css'
 import Footer from '../components/Footer';
+import { AuthContextProvider } from '../context/authContext';
+
 
 import {  Changa, Play, Poppins, Titillium_Web } from '@next/font/google';
 
@@ -36,7 +38,9 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
     <RecoilRoot>
       {/* <Header /> */}
+      <AuthContextProvider>
       <Component {...pageProps} />
+      </AuthContextProvider>
     </RecoilRoot>
     {/* <Footer /> */}
     </Provider>

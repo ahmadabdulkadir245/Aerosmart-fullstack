@@ -23,12 +23,13 @@ function SearchSuggesstions({searchWord, pressToSearchHandler}) {
   const searchTitles = filterProductsByUniqueTitle(suggestions)
 
     const page = 1
+    const perPage = 10
     // useEffect(() => {
       if(searchWord.length > 2) {
         const graphqlQuery = {
           query: `
           {
-            products(page: ${page}) {
+            products(page: ${page}, perPage: ${perPage}) {
               products{
                 id
                 title
@@ -48,7 +49,7 @@ function SearchSuggesstions({searchWord, pressToSearchHandler}) {
             return res.json();
           })
           .then(productData => {
-            const recievedData = productData.data?.products?.products
+            const recievedData = productData.data?.products?.products || []
             recievedData.reverse()
             setProducts(recievedData)
           })

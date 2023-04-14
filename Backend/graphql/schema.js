@@ -15,7 +15,6 @@ module.exports = buildSchema(`
         description: String!
         category: String!
         quantity: Int!
-        creator: ID!
         createdAt: String!
         updatedAt: String!
     }
@@ -25,7 +24,7 @@ module.exports = buildSchema(`
         name: String!
         email: String!
         password: String
-        status: String!
+        isAdmin: String!
         products: [Product!]!
     }
 
@@ -66,7 +65,7 @@ module.exports = buildSchema(`
 
     type RootQuery {
         login(email: String!, password: String!): AuthData!
-        products(page: Int): ProductData!
+        products(page: Int, perPage: Int): ProductData!
         product(id: ID!): Product!
         newProduct(id: ID!): Product!
         user: User!
@@ -77,7 +76,7 @@ module.exports = buildSchema(`
         createUser(userInput: UserInputData): User!
         createBanner(bannerInput: BannerInputData): Banner!
         createProduct(productInput: ProductInputData): Product!
-        updateProduct(id: ID!, productInput: ProductInputData): Product!
+        updateProduct(id: Int!, productInput: ProductInputData): Product!
         deleteProduct(id: Int): Boolean
         updateStatus(status: String!): User!
     }

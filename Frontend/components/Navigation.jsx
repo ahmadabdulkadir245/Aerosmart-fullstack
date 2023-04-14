@@ -44,12 +44,16 @@ function Navigation() {
     setSearchWord('');
   };
 
+  const searchIconHandler = () => {
+    router.push(`/search/${searchWord}`)
+    clearSearchHandler()
+  }
 
   const pressToSearchHandler = (suggesstion) => {
     if(suggesstion) {
+      clearSearchHandler()
       return router.push(`/search/${suggesstion}`)
     }
-    router.push(`/search/${searchWord}`)
   }
   const productInCart = useSelector(selectedcartItems)
 
@@ -88,7 +92,7 @@ function Navigation() {
                   onChange={searchHandler}
                 />
                 <BiSearchAlt className='h-12 w-12 p-3  text-gray-500 transition duration-200 ease-in' 
-                onClick={pressToSearchHandler}
+                onClick={searchIconHandler}
                 />
                 
               </div>

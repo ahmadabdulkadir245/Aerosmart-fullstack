@@ -42,7 +42,7 @@ function Banner() {
         return res.json();
       })
       .then(bannerData => {
-        const recievedData = bannerData.data?.banners?.banners
+        const recievedData = bannerData.data?.banners?.banners || []
         recievedData.reverse()
         setBanners(recievedData)
       })
@@ -56,10 +56,10 @@ function Banner() {
 
   
   return (
-    <div className='w-full xl:w-[1024px] flex justify-center m-auto  mt-2 transition-all duration-700 ease-out'>
+    <div className='w-full max-w-8xl  flex justify-between  m-auto space-x-3  mt-2 lg:mt-8 transition-all duration-700 ease-out lg:px-[50px]'>
     {loading ?
     <>
-    <div className="relative h-[200px] w-[95%] m-auto rounded-md overflow-hidden"
+    <div className="relative  w-[95%] lg:w-[600px] lg:h-[700px] m-auto  lg:m-0 rounded-md overflow-hidden"
       suppressHydrationWarning
     >
     <Swiper
@@ -76,11 +76,20 @@ function Banner() {
         <SwiperSlide key={banner.id} >
             <div className='relative h-full w-full m-auto rounded-md overflow-hidden'>
         <Image src={banner.image} 
-        alt={banner.id} width={700} height={350} priority layout="responsive"  objectFit="cover" />
+        alt={banner.id} width={700} height={580} priority  className="rounded-md"  />
             </div>
       </SwiperSlide>
         ))}
     </Swiper>
+
+    </div>
+    <div className="hidden lg:block space-y-4">
+      <div className="bg-gray-300 w-[335px] h-[220px] rounded-md "></div>
+      <div className="bg-gray-300 w-[335px] h-[220px] rounded-md "></div>
+    </div>
+    <div className="hidden lg:block space-y-4">
+      <div className="bg-gray-300 w-[335px] h-[220px] rounded-md "></div>
+      <div className="bg-gray-300 w-[335px] h-[220px] rounded-md "></div>
     </div>
         </>
 

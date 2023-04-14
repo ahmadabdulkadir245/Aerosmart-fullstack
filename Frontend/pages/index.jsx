@@ -7,12 +7,16 @@ import CategoryIcons from '../components/CategoryIcons'
 import SectionSlider from '../components/SectionSlider'
 import ProductFeed from '../components/ProductFeed'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import GridSectionSlider from '../components/GridSectionSlider'
 import { GRAPHQL_URL } from '../lib/constants'
+import {AuthContext} from '../context/authContext'
+
 
 export default function Home({products}) {
   const router = useRouter()
+  const {authToken} = useContext(AuthContext)
+  // console.log(authToken)
   // const [loading, setLoading] = useState(false)
     useEffect(() => {
     // let token = sessionStorage.getItem("Token");
@@ -38,8 +42,8 @@ export default function Home({products}) {
      <CategoryIcons/>
      <SectionSlider sectionTitle={'latest products'} products={products}/>
      <GridSectionSlider sectionTitle={'top selling products'} products={products} />
-     <div className="px-2 mt-7 mb-3">
-     <div className="uppercase bg-gray-300 p-2 text-gray-700 rounded-md">
+     <div className="px-2 mt-7 mb-3 lg:px-[50px]">
+     <div className="uppercase bg-gray-300 p-2 text-gray-700 rounded-md ">
       <h2 className="text-center ">
         Products
       </h2>
@@ -60,10 +64,11 @@ export default function Home({products}) {
 
 export const getServerSideProps = async (context) => {
   const page = 1
+  const perPage = 8
   const graphqlQuery = {
     query: `
     {
-      products(page: ${page}) {
+      products(page: ${page}, perPage: ${perPage}) {
         products{
           id
           title

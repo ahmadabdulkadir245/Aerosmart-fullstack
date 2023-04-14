@@ -23,7 +23,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
 
 
   return (
-    <div className='my-5'>
+    <div className='my-5 lg:hidden'>
       
       {loading ?
       <>

@@ -1,22 +1,22 @@
 import axios from 'axios';
+import { useRouter } from "next/router";
 import {createContext, useEffect, useState } from 'react'
 
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
+  const router = useRouter()
     let user
     useEffect(() => {
       // Perform localStorage action
        user = localStorage.getItem('user')
     }, [])
-    // if (typeof window !== 'undefined') {
-    //     // Access localStorage here
-    //     const user = JSON.parse(localStorage.getItem('user'));
-    //   }
     const [currentUser, setCurrenctUser] = useState(user || null);
+    const [userId, setUserId] = useState(null)
     const [authToken, setAuthToken] = useState(null)
 
-    const login = async (inputs) => {
+    const login = async (inputs, setInputs, setError) => {
+      try{
         const graphqlQuery = {
             query: `
             query Login($email: String!, $password: String!)  {
@@ -27,14 +27,25 @@ export const AuthContextProvider = ({children}) => {
             }
             `,
             variables: {
-              email: inputs.email,
+              email: (inputs.email).toString(),
               password: inputs.password,
             }
           };
         const res = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL, graphqlQuery)
-        console.log(res.data)
-    setCurrenctUser(res.data)
-    setAuthToken(res.data.data.login.token)
+        // router.push('/')
+        router.back()
+        setInputs({
+          email: '',
+          password: '',
+        })
+        setUserId(res.data.data.login.userId)
+        setAuthToken(res.data.data.login.token)
+       }catch(err) {
+         setError(err.response.data.errors[0].message)
+         setTimeout(() => {
+           setError(null)
+        }, 5000)
+        }
     }
 
     const logout = async () => {

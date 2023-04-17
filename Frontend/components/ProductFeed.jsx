@@ -9,7 +9,7 @@ const ProductFeed = () => {
   const [products, setProducts] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [page, setPage] = useState(1)
-  const perPage = 4
+  const perPage = 5
   useEffect(() => {
     const graphqlQuery = {
       query: `
@@ -49,7 +49,7 @@ const ProductFeed = () => {
   return (
     <>
     <div
-    className='grid grid-cols-2 grid-flow-row-dense md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 m-2 gap-2 lg:gap-6 px-2 md:px-4 max-w-6xl mx-auto'
+    className='grid grid-cols-2 grid-flow-row-dense md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 m-2 gap-2 lg:gap-6 px-2 md:px-[25px] lg:px-[50px]  mx-auto'
   >
     {products.map(({ id, title, price, description, category, imageUrl }) => (
       <Products

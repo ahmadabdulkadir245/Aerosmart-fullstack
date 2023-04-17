@@ -35,28 +35,24 @@ const Products = ({ id, title, price, description, image }) => {
                 <Image src={image} alt={image} layout="fill" objectFit="cover" />
               </div>
           </Link>
-          <p className='my-1 lg:my-3  px-2 capitalize text-sm font-semibold line-clamp-1 '>{title}</p>
-          <div className='flex  px-2'>
-            {/* {Array(rating)
+          <p className='my-1 lg:mt-2 px-2 capitalize text-sm font-poppins line-clamp-1 text-gray-700'>{title}</p>
+          {/* <div className='flex  px-2'>
+            {Array(rating)
               .fill(1)
               .map((_, i) => (
                 <StarIcon key={id} className='h-4 text-yellow-500' />
-              ))} */}
-          </div>
-        <div className=' font-primary  md:my-2 line-clamp-2  px-2 text-xs  h-[30px]'>
+              ))}
+          </div> */}
+        <div className=' font-primary  line-clamp-2 lg:line-clamp-3  px-2 text-xs  h-[30px] lg:h-[50px] text-gray-800'>
         <p  dangerouslySetInnerHTML={{ __html: description }} 
       />
         </div>
           <div className='  font-primary px-2 text-gray-500 flex items-center space-x-1 text-xs font-semibold mt-[2px]'>
             <TbCurrencyNaira  className="w-4 h-4"/>{price.toLocaleString()}
           </div>
-          {/* {hasPrime && (
-            <div className='flex items-center space-x-3 -mt-5 mb-2 px-2 '>
-              <p className='text-xs text-gray-500'>FREE next-day Delivery</p>
-            </div>
-          )} */}
+
           <button
-            className=' mt-1 mx-auto bg-yellow-500 p-2 w-[90%] text-white rounded-md  uppercase mb-2 text-xs'
+            className='mt-1 lg:mt-2 mx-auto bg-yellow-500 hover:bg-yellow-400 p-2 w-[90%] text-white rounded-md  uppercase mb-2 text-xs'
             onClick={addProductToCart}
           >
             Add To Cart

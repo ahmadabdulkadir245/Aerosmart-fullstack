@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { RiFacebookFill } from "react-icons/ri";
+import { RiEye2Fill, RiEyeCloseFill, RiEyeLine, RiEyeOffFill, RiFacebookFill } from "react-icons/ri";
 import Head from "next/head";
 import axios from "axios";
 
@@ -26,17 +26,11 @@ function Signup() {
       })
       .catch((err) => console.log(err));
   };
-  // useEffect(() => {
-  //   let token = sessionStorage.getItem("Token");
-  //   if (token) {
-  //     router.push("/");
-  //   }
-  //   console.log("token is my friend");
-  //   console.log(token);
-  // }, []);
 
-
-const [err, setError] = useState(null)
+const [error, setError] = useState(null)
+const [success, setSuccess] = useState(null)
+const [passwordVissble, setPasswordVissible] = useState(false)
+const [confirmpasswordVissble, setConfirmPasswordVissible] = useState(false)
 const [inputs, setInputs] = useState({
   email: '',
   password: '',
@@ -57,6 +51,10 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
         })
         .catch((err) => {
           console.log(err);
+          setError(err)
+          setTimeout(() => {
+            setError(null)
+         }, 5000)
         });
     }
   };
@@ -65,42 +63,48 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
   }
   const submitHandler = async (e) => {
     e.preventDefault()
-    try{
-      let graphqlQuery = {
-        query: `
-        mutation CreateUser($email: String!, $password: String!) {
+    let graphqlQuery = {
+      query: `
+      mutation CreateUser($email: String!, $password: String!) {
           createUser(userInput: {email: $email, password: $password}) {
             email
           }
         }
       `,
         variables: {
-          email: inputs.email,
+          email: (inputs.email).toString(),
           password: inputs.password,
         }
       };
-      // if (emailIsValid && passwordIsValid && passwordIsEqual) {
-
+      setSuccess(null)
+      setError(null)
+      if (emailIsValid && passwordIsValid && passwordIsEqual) {
+        try{
           const res = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL, graphqlQuery)
-          console.log(res.data.data.createUser.email)
+          // console.log(res.data.data.createUser.email)
           if(res.data.data.createUser.email == "false") {
-            return console.log("User exist")
+            // return console.log("User exist")
+            return setError("Email has been registered")
           }
-          router.push('/login')
+          setSuccess("Registered Successful redirecting to login")
           setInputs({
             email: '',
             password: '',
             confirmPassword: ''
           })
-        }catch(err) {
-          setError(err.response.data)
+          setTimeout(() => {
+            router.push('/login')
+          }, 3000)
+        }
+        catch(err) {
           console.log(err)
+          setError(err)
         }
       }
-      // else {
-      //   console.log('Invalid email or password do not match')
-      // }
-    // }
+      else {
+        setError('Invalid email or password do not match')
+      }
+    }
 
 
   return (
@@ -112,9 +116,9 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
    </Head>
 
       <h2 className="sm:mt-24 md:mt-0 text-2xl text-center font-bold mb-2  ">Sign Up</h2>
-
+      {error && <p className="text-red-500 text-xs lg:text-lg text-center">{error}</p>}
+      {success && <p className="text-green-500 text-xs lg:text-lg text-center font-poppins">{success}</p>}
       <form>
-        {err && <p className='text-center text-red-500 '>{err}</p>}
       <input
               type='email'
               className='border-[1px] lg:border-[1px] rounded-lg  border-gray-500] outline-none px-4 py-[16px] w-[90%]  m-auto flex my-5 lg:my-5'
@@ -124,24 +128,45 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
                name="email"
                value={inputs.email}
             />
+            <div className="flex items-center border-[1px] lg:border-[1px] rounded-lg   outline-none px-4 py-[16px] w-[90%]  m-auto  my-5 lg:my-5 bg-white">
       <input
-              type='password'
-              className='border-[1px] lg:border-[1px] rounded-lg  border-gray-500] outline-none px-4 py-[16px] w-[90%]  m-auto flex my-5 lg:my-5'
+              type={passwordVissble ? 'text' : 'password'}
+              className='w-full h-full outline-none'
               placeholder='Password'
               required
               onChange={inputHandler}
               name="password"
               value={inputs.password}
-            />
+              />
+              {passwordVissble ?
+              <>
+                <RiEyeLine className="h-4 w-5" onClick={() => setPasswordVissible(!passwordVissble)}/>
+
+              </>
+                :
+              <RiEyeCloseFill className="h-4 w-5" onClick={() => setPasswordVissible(!passwordVissble)}/>
+                 }
+              </div>
+            <div className="flex items-center border-[1px] lg:border-[1px] rounded-lg   outline-none px-4 py-[16px] w-[90%]  m-auto  my-5 lg:my-5 bg-white">
       <input
-              type='password'
-              className='border-[1px] lg:border-[1px] rounded-lg  border-gray-500] outline-none px-4 py-[16px] w-[90%]  m-auto flex my-5 lg:my-5'
-              placeholder='Confrim Password'
+              type={confirmpasswordVissble ? 'text' : 'password'}
+              className='w-full h-full outline-none'
+              placeholder='Confirm Password'
               required
               onChange={inputHandler}
               name="confirmPassword"
               value={inputs.confirmPassword}
-            />
+              />
+              {confirmpasswordVissble ?
+              <>
+                <RiEyeLine className="h-4 w-5" onClick={() => setConfirmPasswordVissible(!confirmpasswordVissble)}/>
+
+              </>
+                :
+              <RiEyeCloseFill className="h-4 w-5" onClick={() => setConfirmPasswordVissible(!confirmpasswordVissble)}/>
+                 }
+              </div>
+
         </form>
 
         <Link href="/forgot-password">

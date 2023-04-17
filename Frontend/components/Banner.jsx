@@ -56,12 +56,9 @@ function Banner() {
 
   
   return (
-    <div className='w-full max-w-8xl  flex justify-between  m-auto space-x-3  mt-2 lg:mt-8 transition-all duration-700 ease-out lg:px-[50px]'>
+    <div className='w-full px-[10px] max-w-8xl  lg:flex justify-between  m-auto lg:space-x-3  mt-2 lg:mt-8 transition-all duration-700 ease-out lg:px-[50px]'>
     {loading ?
     <>
-    <div className="relative  w-[95%] lg:w-[600px] lg:h-[700px] m-auto  lg:m-0 rounded-md overflow-hidden"
-      suppressHydrationWarning
-    >
     <Swiper
       spaceBetween={30}
       loop={true}
@@ -72,17 +69,24 @@ function Banner() {
       modules={[Pagination, Thumbs]}
       className="mySwiper"
     >
+      <div className="relative w-full h-[300px] lg:w-[600px] overflow-hidden m-auto  lg:m-0 rounded-md "
+        // suppressHydrationWarning
+      >
         {banners.map(banner => (
         <SwiperSlide key={banner.id} >
-            <div className='relative h-full w-full m-auto rounded-md overflow-hidden'>
-        <Image src={banner.image} 
-        alt={banner.id} width={700} height={580} priority  className="rounded-md"  />
+            <div className='relative  w-full h-[300px]  rounded-md  lg:hidden'>
+          <Image src={banner.image} 
+          alt={banner.id} priority  className="rounded-md " layout="fill" objectFit="cover" />
+            </div>
+            <div className="hidden lg:block">
+          <Image src={banner.image} 
+          alt={banner.id} width={700} height={580} priority  className="rounded-md"  />
             </div>
       </SwiperSlide>
         ))}
+    </div>
     </Swiper>
 
-    </div>
     <div className="hidden lg:block space-y-4">
       <div className="bg-gray-300 w-[335px] h-[220px] rounded-md "></div>
       <div className="bg-gray-300 w-[335px] h-[220px] rounded-md "></div>
@@ -94,7 +98,7 @@ function Banner() {
         </>
 
   : 
-  <div className='relative h-[200px] w-[95%] m-auto rounded-md bg-gray-400 overflow-hidden animate-pulse transition-all duration-500 linear'>
+  <div className='re250ive h-[300px] w-[95%] m-auto rounded-md bg-gray-400 overflow-hidden animate-pulse transition-all duration-500 linear'>
   <div className='absolute h-full w-10  bg-white pulse overflow-hidden z-[40]'></div>
           <div className="relative top-[90%] flex  justify-center  space-x-3  bottom-5 ">
             <p className="w-[8px] h-[8px]  rounded-full bg-gray-500"></p>

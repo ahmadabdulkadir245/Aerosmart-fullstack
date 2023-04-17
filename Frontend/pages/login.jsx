@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Head from "next/head";
-import { RiFacebookFill } from "react-icons/ri";
+import { RiEyeCloseFill, RiEyeLine, RiFacebookFill } from "react-icons/ri";
 import {AuthContext} from '../context/authContext'
 import axios from "axios";
 
@@ -26,6 +26,9 @@ function Login() {
       })
       .catch((err) => console.log(err));
   };
+
+  const [error, setError] = useState('')
+  const [passwordVissble, setPasswordVissible] = useState(false)
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -69,28 +72,7 @@ function Login() {
       e.preventDefault()
       // if (emailIsValid && passwordIsValid ) {
         try{
-        //   const graphqlQuery = {
-        //     query: `
-        //     query Login($email: String!, $password: String!)  {
-        //         login(email: $email, password: $password) {
-        //             token
-        //             userId
-        //       }
-        //     }
-        //     `,
-        //     variables: {
-        //       email: inputs.email,
-        //       password: inputs.password,
-        //     }
-        //   };
-        // const res = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL, graphqlQuery)
-        // console.log(res.data)
-        login(inputs)
-          setInputs({
-            email: '',
-            password: '',
-          })
-          router.push('/')
+        login(inputs, setInputs, setError)
         }catch(err) {
           console.log(err)
           
@@ -105,7 +87,7 @@ function Login() {
 
   return (
   <div className="relative ">
-   
+    
    <div className="py-10 md:py-0 grid grid-cols-1 place-content-center overflow-y-scroll xs:h-screen xs:palce-items-center xs:my-0  scrollbar-hide  text-gray-700 max-w-4xl m-auto text-sm">
           <Head>
            <title>Login</title>
@@ -113,8 +95,11 @@ function Login() {
            <link rel="icon" href="/favicon.ico" />
          </Head>
          
-   <h2 className="sm:mt-24 md:mt-0 text-2xl text-center font-bold mb-2  ">Login</h2>
-         <h2 className="text-2xl text-center font-bold mb-2">Welcome Back</h2>
+        <h2 className="sm:mt-24 md:mt-0 text-2xl text-center font-bold mb-2  ">Login</h2>
+         <h2 className="text-2xl text-center font-bold mb-2">Welcome Back
+         </h2>
+
+        {error && <p className="text-red-500 text-xs lg:text-lg text-center">{error}</p>}
        <form >
          <input
                  type='email'
@@ -124,14 +109,26 @@ function Login() {
                  name="email"
                  onChange={inputHandler}
                />
-         <input
-                 type='password'
-                 className='border-[0.5px] lg:border-[1px] rounded-lg  border-gray-500] outline-none px-4 py-[16px] w-[90%]  m-auto flex my-5 lg:my-5'
-                 placeholder='Password'
-                 required
-                 name="password"
-                 onChange={inputHandler}
-               />
+
+       <div className="flex items-center border-[1px] lg:border-[1px] rounded-lg   outline-none px-4 py-[16px] w-[90%]  m-auto  my-5 lg:my-5 bg-white">
+      <input
+              type={passwordVissble ? 'text' : 'password'}
+              className='w-full h-full outline-none'
+              placeholder='Password'
+              required
+              onChange={inputHandler}
+              name="password"
+              value={inputs.password}
+              />
+              {passwordVissble ?
+              <>
+                <RiEyeLine className="h-4 w-5 cursor-pointer" onClick={() => setPasswordVissible(!passwordVissble)}/>
+
+              </>
+                :
+              <RiEyeCloseFill className="h-4 w-5 cursor-pointer" onClick={() => setPasswordVissible(!passwordVissble)}/>
+                 }
+              </div>
            </form>
    
            <Link href="/forgot-password">

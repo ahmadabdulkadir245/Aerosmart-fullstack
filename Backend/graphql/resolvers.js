@@ -61,13 +61,13 @@ module.exports = {
     })
     .catch(err => console.log(err))
     if (!user) {
-      const error = new Error('User not found.');
+      const error = new Error('Email has  not been register.');
       error.code = 401;
       throw error;
     }
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
-      const error = new Error('Password is incorrect.');
+      const error = new Error('Email or Password is incorrect.');
       error.code = 401;
       throw error;
     }

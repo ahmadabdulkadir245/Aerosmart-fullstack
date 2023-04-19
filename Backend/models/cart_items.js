@@ -1,26 +1,41 @@
 const db = require('../util/database');
 
-module.exports = class Cart {
-  constructor(cartId, productId,  customerId) {
-    this.cartId = cartId;
+module.exports = class CartItem {
+  constructor(Id, qty ,productId,  userId) {
+    this.id = id;
+    this.qty
     this.productId = productId;
-    this.customerId = customerId;
+    this.userId = userId;
   }
 
   save() {
     return db.execute(
-      'INSERT INTO cart (productId, customerId) VALUES (?, ?, ?)',
-      [this.productId, this.customerId]
+      'INSERT INTO cartItems (quantity, cartId, productId) VALUES (?, ?, ?, ?)',
+      [this.qty, this.userId, this.productId ]
     );
   }
 
   static deleteById(id) {}
 
-  static fetchAll() {
-    return db.execute('SELECT * FROM cart');
+  static fetchCartProducts(productId) {
+    return db.execute('SELECT * FROM cartItems WHERE cartItems.id', [userId]);
   }
 
-  static findById(id) {
-    return db.execute('SELECT * FROM cart WHERE cart.id = ?', [id]);
+  static fetchUserCart(userId) {
+    return db.execute('SELECT productId FROM cartItems WHERE cartItems.id', [userId])
+}
+
+  static productExist(productId) {
+    return db.execute(
+      'SELECT * FROM cartItems WHERE productId = ?',
+      [productId]
+    )
+  }
+
+  static updateQuantity(productId, qty) {
+    return db.execute(
+      'SELECT * FROM cartItems WHERE productId = ?',
+      [productId]
+    )
   }
 };

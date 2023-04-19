@@ -4,6 +4,7 @@ import Header from '../../components/Header'
 import AdminProductsList from '../../components/AdminProductsList'
 import ReactPaginate from "react-paginate";
 import { useEffect } from 'react';
+import Loading from '../../components/Loading';
 
 let globalPage = 1
 
@@ -11,6 +12,7 @@ function AminProducts() {
   const [products, setProducts] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
   const perPage = 3
   useEffect(() => {
     const graphqlQuery = {
@@ -50,6 +52,15 @@ function AminProducts() {
       })
   }, [page])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+  }, [loading])
+
+  if(loading) {
+    return <Loading/>
+  }
   return (
     <>
     <Header/>
@@ -59,8 +70,8 @@ function AminProducts() {
         <div className="">
           <p><span className='hidden lg:inline-block'>PRODUCT </span> IMAGE</p>
         </div>
-        <div className=" lg:col-span-2">
-          <p><span className='hidden lg:inline-block'>PRODUCT </span> DESCRIPTION</p>
+        <div className="col-span-2">
+          <p><span className='hidden lg:inline-block'>PRODUCT  </span> TITLE / DESCRIPTION</p>
         </div>
         <div className="hidden lg:inline-flex  items-center space-x-2">
         <p><span className='hidden lg:inline-block'>PRODUCT </span> CATEGORY</p>
@@ -68,15 +79,15 @@ function AminProducts() {
         <div className="hidden lg:flex  items-center space-x-2">
         <p><span className='hidden lg:inline-block'>PRODUCT </span> PRICE</p>
         </div>
-        <div className="">
-          <p>EDIT <span className='hidden lg:inline-block'>PRODUCT </span> </p>
+        <div className="hidden lg:inline">
+          <p className=''>EDIT <span className='hidden lg:inline-block'>PRODUCT </span> </p>
         </div>
         <div className="">
-          <p>DELETE <span className='hidden lg:inline-block'>PRODUCT </span> </p>
+          <p> ACTIONS<span className='hidden lg:inline-block'>DELETE PRODUCT </span> </p>
         </div>
     </div>
 
-    <div className="grid grid-cols-4 lg:grid-cols-7 grap-2 items-center uppercase  text-gray-700 text-xs font-semibold mt-3">
+    <div className="grid grid-cols-4 lg:grid-cols-7 gap-x-3 items-center uppercase  text-gray-700 text-xs font-semibold mt-3">
       {products.map(({ id, title, price, description, category, imageUrl,quantity }) => (
     <AdminProductsList
         key={id}
@@ -87,6 +98,7 @@ function AminProducts() {
         category={category}
         quantity={quantity}
         imageUrl={imageUrl}
+        setLoading={setLoading}
     />
       ))}
     </div>

@@ -15,7 +15,7 @@ export const AuthContextProvider = ({children}) => {
     const [userId, setUserId] = useState(null)
     const [authToken, setAuthToken] = useState(null)
 
-    const login = async (inputs, setInputs, setError) => {
+    const login = async (inputs, setInputs, setError, setLoading) => {
       try{
         const graphqlQuery = {
             query: `
@@ -32,8 +32,9 @@ export const AuthContextProvider = ({children}) => {
             }
           };
         const res = await axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL, graphqlQuery)
-        // router.push('/')
-        router.back()
+        router.push('/')
+        // router.back()
+        setLoading(false)
         setInputs({
           email: '',
           password: '',
@@ -49,8 +50,9 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const logout = async () => {
-     await axios.post(process.env.NEXT_PUBLIC_LOGOUT_URL)
+    //  await axios.post(process.env.NEXT_PUBLIC_LOGOUT_URL)
     setCurrenctUser(null)
+    setAuthToken(null)
     }
 
     useEffect(() => {

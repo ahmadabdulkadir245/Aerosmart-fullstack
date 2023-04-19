@@ -13,6 +13,7 @@ import Head from "next/head";
 import { RiEyeCloseFill, RiEyeLine, RiFacebookFill } from "react-icons/ri";
 import {AuthContext} from '../context/authContext'
 import axios from "axios";
+import Loading from "../components/Loading";
 
 function Login() {
   const auth = getAuth(app);
@@ -28,6 +29,7 @@ function Login() {
   };
 
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [passwordVissble, setPasswordVissible] = useState(false)
   const [inputs, setInputs] = useState({
     email: '',
@@ -70,9 +72,10 @@ function Login() {
 
     const submitHandler = async (e) => {
       e.preventDefault()
+      setLoading(true)
       // if (emailIsValid && passwordIsValid ) {
         try{
-        login(inputs, setInputs, setError)
+        login(inputs, setInputs, setError, setLoading)
         }catch(err) {
           console.log(err)
           
@@ -84,6 +87,11 @@ function Login() {
   //     router.push("/");
   //   }
   // }, []);
+
+  if(loading) {
+    return <Loading/>
+  }
+
 
   return (
   <div className="relative ">

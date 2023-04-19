@@ -5,7 +5,7 @@ import { MdClear } from "react-icons/md";
 import SideBar from "./SideBar"
 import {  AiOutlineShoppingCart} from "react-icons/ai";
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import router from 'next/router'
 import { useRecoilState } from 'recoil';
 import { navState } from '../atoms/navHandler';
@@ -14,6 +14,7 @@ import { selectedcartItems } from '../slices/cartSlice';
 import { addSearchedWord } from '../slices/searchSlice';
 import MobileNav from './MobileNav';
 import SearchSuggesstions from './SearchSuggesstions';
+import {AuthContext} from '../context/authContext'
 
 
 const items = []
@@ -56,6 +57,8 @@ function Navigation() {
     }
   }
   const productInCart = useSelector(selectedcartItems)
+
+  const {logout, authToken} = useContext(AuthContext)
 
   return (
 <div>
@@ -104,14 +107,23 @@ function Navigation() {
                     className={`  lg:hidden w-6 h-6 lg:w-7 lg:h-7 ${showSearch ? 'hidden': ''}`}
                 onClick={showSearchHandler}
                   />
+                  {authToken ?
+                      <div className='hover:text-[#f7b32b] transition-all duration-500 linear' onClick={() => logout()}>
+                      <RiUser3Line className='w-6 h-6 lg:w-7 lg:h-5 ' />
+                   <p className='hidden lg:inline font-semiold md:text-xs font-titilliumWeb link'>
+                  Logout
+                </p>
+                </div>
+                :  
                   <Link href='/login'>
                      <div className='hover:text-[#f7b32b] transition-all duration-500 linear'>
                         <RiUser3Line className='w-6 h-6 lg:w-7 lg:h-5 ' />
                      <p className='hidden lg:inline font-semiold md:text-xs font-titilliumWeb link'>
-                    Sign In
+                    Login
                   </p>
                   </div>
                   </Link>
+                }
                 </div>
 
                 <div

@@ -5,7 +5,7 @@ import { TbCurrencyNaira } from 'react-icons/tb'
 
 function ColumnProducts({key, id, image, title, price, description}) {
   return (
-    <div  className=" flex  space-x-3">
+    <div  className=" flex  space-x-3 mb-1">
     <div className='h-[200px] w-[150px] bg-gray-200'>
         <div className='relative h-[200px] w-[150px]'>
             <Image src={image} alt={title} layout="fill" objectFit='contain'/>

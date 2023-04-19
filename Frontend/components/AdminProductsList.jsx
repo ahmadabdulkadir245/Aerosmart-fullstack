@@ -5,10 +5,10 @@ import Link from "next/link"
 import axios from 'axios'
 import { useEffect } from "react"
 import { useState } from "react"
+import Loading from "./Loading"
 
-function AdminProductsList({id, title, imageUrl, category, price, description, quantity}) {
+function AdminProductsList({id, title, imageUrl, category, price, description, quantity, setLoading}) {
   const router = useRouter()
-  const [loading, setLoading] = useState(false)
     const editHandler = () => {
     router.push(`/admin/add-product?${id}`)
   }
@@ -36,18 +36,20 @@ function AdminProductsList({id, title, imageUrl, category, price, description, q
         return res.json();
       })
   }
-useEffect(() => {
 
-}, [loading])
-  
+
+
   return (
     < >
-        <div className="relative w-[95%] h-[120px] lg:h-[200px] my-2">
+        <div className="relative w-full h-[120px] lg:h-[200px] my-2 transition-all duration-500 ease-in">
           <Image src={imageUrl} alt={title} layout="fill" objectFit="cover" />
         </div>
-        <div className="lg:col-span-2">
-      <article className="line-clamp-6" dangerouslySetInnerHTML={{ __html: description }} 
+        <div className="col-span-2">
+          <p className="mb-1 text-center lg:text-left ">( {title} ) </p>
+          <div className="hidden lg:inline-block">
+      <div className="line-clamp-6 lowercase" dangerouslySetInnerHTML={{ __html: description }} 
       />
+          </div>
         </div>
         <div className="hidden lg:flex  items-center space-x-2">
         <p>{category}</p>
@@ -56,15 +58,24 @@ useEffect(() => {
         <p><TbCurrencyNaira  className="w-4 h-4"/></p>
         <p>{price.toLocaleString()}</p>
         </div>
-        <div className="">
+
+        <div className="hidden lg:block">
         <Link href={{ pathname: `/admin/add-product`, query: { prodId: id, title: title, oldImage: imageUrl, category: category, price: price, description: description, quantity: quantity }}}> 
         <button className="capitalize w-[90%] h-[38px] rounded-sm  border-[1px]  bg-transparent  m-auto tracking-wide cursor-pointer hover:bg-green-600 hover:text-white transition-all duration-300 ease-in-out">EDIT</button>
         </Link>
         </div>
-        <div className="">
+
+        <div className="space-y-3 lg:space-y-0">
+        <div className="lg:hidden">
+        <Link href={{ pathname: `/admin/add-product`, query: { prodId: id, title: title, oldImage: imageUrl, category: category, price: price, description: description, quantity: quantity }}}> 
+        <button className="capitalize w-[90%] h-[38px] rounded-sm  border-[1px]  bg-transparent  m-auto tracking-wide cursor-pointer hover:bg-green-600 hover:text-white transition-all duration-300 ease-in-out">EDIT</button>
+        </Link>
+        </div>
+        
         <button className="capitalize w-[90%] h-[38px] rounded-sm  border-[1px] bg-transparent  m-auto tracking-wide cursor-pointer hover:bg-red-600 hover:text-white transition-all duration-300 ease-in-out" onClick={deleteHandler.bind(this, id)}>DELETE</button>
         </div>
         <div className="w-full h-[1px] bg-gray-300 col-span-full"></div>
+
     </>
   )
 }

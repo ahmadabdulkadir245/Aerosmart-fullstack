@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 const Product = require('../models/product');
 const Banner = require('../models/banner_image');
 const User = require('../models/user');
-const db = require('../util/database')
+const db = require('../util/database');
+const Cart = require('../models/cart');
+const CartItem = require('../models/cart_items');
 
 
 module.exports = {
@@ -48,12 +50,53 @@ module.exports = {
      hashedPw, '');
 
     await user.save();
+
     return {
-      id: '',
+      id: user.id,
       email: user.email,
       password: user.password,
       isAdmin: user.isAdmin
     };
+  },
+  cart:  async function({  userId }) {
+      const carts = await CartItem.fetchUserCart(userId)
+      const ids = carts[0].map(cart => {
+        return cart.productId.toString()
+      })
+      const id = ids[0]
+
+      // const products = await Product.findByCart(ids)
+      // .then(([rows]) => {
+      //   console.log(`This is the product gotten: ${rows}`)
+      //   return rows;
+      // });
+      const products = await Product.findByCart(ids)
+         // .then(([rows]) => {
+      //   console.log(`This is the product gotten: ${rows}`)
+      //   return rows;
+      // })
+    console.log(products)
+
+      
+      return {
+        carts: carts.map(cart => {
+          return {
+            id: cart.id
+          }
+        })
+      }
+  },
+  addToCart:  async function({  userId, qty, productId }) {
+    const productExist = await CartItem.productExist(productId).then(([product]) => {
+      return product[0]
+    })
+    .catch(err => console.log(err))
+
+    if(productExist) {
+      CartItem.updateQuantity(productId, qty)
+    }
+    const cartItem = new CartItem(null, qty, productId, userId)
+    cartItem.save()
   },
   login: async function({ email, password }) {
     const user = await User.userExist(email).then(([user]) => {
@@ -120,7 +163,6 @@ module.exports = {
 
         const totalPosts = 5
         const totalPages = Math.ceil(totalProducts.length / perPage);
-        console.log(totalPages);
         
         return {
           products: products.data.map(product => {

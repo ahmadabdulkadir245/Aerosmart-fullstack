@@ -47,8 +47,8 @@ const Products = ({ id, title, price, description, image }) => {
         <p  dangerouslySetInnerHTML={{ __html: description }} 
       />
         </div>
-          <div className='  font-primary px-2 text-gray-500 flex items-center space-x-1 text-xs font-semibold mt-[2px]'>
-            <TbCurrencyNaira  className="w-4 h-4"/>{price.toLocaleString()}
+          <div className='  font-primary px-2 flex items-center space-x-1 text-xs  mt-[2px] text-gray-800'>
+            <TbCurrencyNaira  className="w-4 h-4 text-gray-600"/>{price.toLocaleString()}
           </div>
 
           <button

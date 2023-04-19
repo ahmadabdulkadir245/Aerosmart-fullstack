@@ -33,6 +33,18 @@ module.exports = class Product {
     return db.execute(`SELECT * FROM products LIMIT ${limit} OFFSET ${offset}`)
   }
 
+
+  static async findByCart(cartId) {
+    const query = `
+      SELECT productId
+      FROM cartItems
+      JOIN products ON cartItems.productId = products.id
+      WHERE cartItems.cartId = ?;
+    `;
+    const [rows] = await db.execute(query, [cartId]);
+    return rows;
+  }
+
   static findById(id) {
     return db.execute('SELECT * FROM products WHERE products.id = ?', [id]);
   }

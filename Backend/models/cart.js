@@ -1,28 +1,25 @@
 const db = require('../util/database');
 
-const Cart = require('./cart');
-
 module.exports = class Cart {
-  constructor(id, productId,  customerId) {
+  constructor(id, userId) {
     this.id = id;
-    this.productId = productId;
-    this.customerId = customerId;
+    this.userId = userId;
   }
 
   save() {
     return db.execute(
-      'INSERT INTO cart (productId, customerId) VALUES (?, ?, ?)',
-      [this.productId, this.customerId]
+      'INSERT INTO carts (userId) VALUES (?)',
+      [this.userId]
     );
   }
 
   static deleteById(id) {}
 
   static fetchAll() {
-    return db.execute('SELECT * FROM cart');
+    return db.execute('SELECT * FROM carts');
   }
 
   static findById(id) {
-    return db.execute('SELECT * FROM cart WHERE cart.id = ?', [id]);
+    return db.execute('SELECT * FROM carts WHERE carts.id = ?', [id]);
   }
 };

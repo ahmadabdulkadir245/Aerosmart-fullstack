@@ -28,6 +28,12 @@ module.exports = buildSchema(`
         products: [Product!]!
     }
 
+    type Cart {
+        userId: Int
+        qty: Int
+        productId: Int
+    }
+
     type AuthData {
         token: String!
         userId: String!
@@ -42,6 +48,10 @@ module.exports = buildSchema(`
         banners: [Banner]!
     }
 
+    type CartData {
+        carts: [Cart]!
+    }
+
     input BannerInputData {
         image: String!
         category: String!
@@ -51,6 +61,12 @@ module.exports = buildSchema(`
     input UserInputData {
         email: String!
         password: String!
+    }
+
+    input CartInputData {
+        userId: Int
+        qty: Int
+        product: Int
     }
 
     input ProductInputData {
@@ -69,6 +85,7 @@ module.exports = buildSchema(`
         product(id: ID!): Product!
         newProduct(id: ID!): Product!
         user: User!
+        cart(userId: Int): ProductData!
         banners: BannerData!
     }
 
@@ -76,6 +93,7 @@ module.exports = buildSchema(`
         createUser(userInput: UserInputData): User!
         createBanner(bannerInput: BannerInputData): Banner!
         createProduct(productInput: ProductInputData): Product!
+        addTocart(cartInput: CartInputData): Cart
         updateProduct(id: Int!, productInput: ProductInputData): Product!
         deleteProduct(id: Int): Boolean
         updateStatus(status: String!): User!

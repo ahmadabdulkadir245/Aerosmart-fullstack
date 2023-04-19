@@ -9,20 +9,42 @@ import { BsBricks } from 'react-icons/bs'
 import { useRecoilState } from 'recoil'
 import { navState } from '../atoms/navHandler'
 import { useRouter } from 'next/navigation'
+import { AuthContext } from '../context/authContext'
+import { useContext, useState } from 'react'
+import Loading from './Loading'
 
 function SideBarLinks() {
   const [openSideBar, setOpenSideBar] = useRecoilState(navState);
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const closeNav = (path) => {
     setOpenSideBar(false)
     router.push(`${path}`)
   }
+  const {logout, authToken} = useContext(AuthContext)
+  const logoutHandler = () => {
+    logout()
+      router.push('/login')
+    setOpenSideBar(false)
+  }
+
+  if(loading) {
+    return <Loading/>
+  }
+
   return (
     <div className='px-[10px] py-[6px] pb-8 text-gray-500 capitalize text-md h-full overflow-y-scroll'>
         <div className='flex justify-between '>
-            <button className='rounded-md border-2 border-gray-400 py-2 w-[47%]' onClick={closeNav.bind(this, '/login')} >
+          {authToken ? 
+          <button className='rounded-md border-2 border-gray-400 py-2 w-[47%]' onClick={logoutHandler} >
+          logout
+        </button>
+        :
+        <button className='rounded-md border-2 border-gray-400 py-2 w-[47%]' onClick={closeNav.bind(this, '/login')} >
               Login
-            </button>
+            </button> 
+        }
+           
             <button className='rounded-md border-2 border-gray-400 py-2 w-[47%]' onClick={closeNav.bind(this, '/signup')}>
               Sign Up
               </button>
@@ -38,9 +60,13 @@ function SideBarLinks() {
         <SideBarLink Icon={GiConcreteBag} title={'cement'} path={'/'}/>
         <SideBarLink Icon={GiOpeningShell} title={'stones'} path={'/'}/>
         <SideBarLink Icon={BsBricks} title={'bricks'} path={'/'}/>
+        {authToken &&
+        <>
+        <SideBarLink Icon={BsBricks} title={'admin products'} path={'/admin/products'}/>
         <SideBarLink Icon={MdAdminPanelSettings} title={'add product'} path={'/admin/add-product'}/>
         <SideBarLink Icon={MdAdminPanelSettings} title={'add banner image'} path={'/admin/add-banner'}/>
-        <SideBarLink Icon={BsBricks} title={'admin products'} path={'/admin/products'}/>
+        </>
+      }
     </div>
   )
 }

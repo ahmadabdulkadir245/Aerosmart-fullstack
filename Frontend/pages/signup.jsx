@@ -12,6 +12,7 @@ import { FcGoogle } from "react-icons/fc";
 import { RiEye2Fill, RiEyeCloseFill, RiEyeLine, RiEyeOffFill, RiFacebookFill } from "react-icons/ri";
 import Head from "next/head";
 import axios from "axios";
+import Loading from "../components/Loading";
 
 function Signup() {
   const auth = getAuth(app);
@@ -28,6 +29,7 @@ function Signup() {
   };
 
 const [error, setError] = useState(null)
+const [loading, setLoading] = useState(false)
 const [success, setSuccess] = useState(null)
 const [passwordVissble, setPasswordVissible] = useState(false)
 const [confirmpasswordVissble, setConfirmPasswordVissible] = useState(false)
@@ -63,6 +65,7 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
   }
   const submitHandler = async (e) => {
     e.preventDefault()
+    setLoading(true)
     let graphqlQuery = {
       query: `
       mutation CreateUser($email: String!, $password: String!) {
@@ -92,6 +95,7 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
             password: '',
             confirmPassword: ''
           })
+          setLoading(false)
           setTimeout(() => {
             router.push('/login')
           }, 3000)
@@ -106,6 +110,9 @@ const passwordIsEqual = inputs.password === inputs.confirmPassword;
       }
     }
 
+    if(loading) {
+      return <Loading/>
+    }
 
   return (
     <div className="py-10 md:py-0 grid grid-cols-1 place-content-center overflow-y-scroll xs:h-screen xs:palce-items-center xs:my-0  scrollbar-hide  text-gray-700 max-w-4xl m-auto text-sm">

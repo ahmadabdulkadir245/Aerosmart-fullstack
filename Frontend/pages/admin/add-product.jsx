@@ -31,6 +31,7 @@ const modules = {
 
 import 'react-quill/dist/quill.snow.css';
 import { useRouter } from "next/router";
+import Loading from "../../components/Loading";
 
 
 
@@ -52,6 +53,7 @@ const AddProduct = () => {
       setImage(oldImage)
       setContent(description)
       setIsUpdate(true)
+      console.log(oldImage)
     }
   }, [prodId, title, price, category, quantity, oldImage, description])
 
@@ -63,6 +65,10 @@ const AddProduct = () => {
     quantity:  "",
     imageUrl:  "",
     description:  "",
+  })
+  const [message, setMessage] = useState({
+    state: false,
+    message: ''
   })
   const [success, setSuccess] = useState(false)
   const [image, setImage] = useState(null)
@@ -134,13 +140,18 @@ const AddProduct = () => {
         category: ""
       })
       setContent("")
-    setLoading(false)
+      setLoading(false)
+      setMessage({
+        state:true,
+        message: 'Product Added Successfully'
+      })
       setTimeout(() => {
-        setSuccess(true)
-      }, 1000);
-      setTimeout(() => {
+        setMessage({
+          state: false,
+          message: ''
+        })
         setSuccess(false)
-      }, 8000);
+      }, 7000);
     })
     })
     .catch(err => console.log(err))
@@ -149,7 +160,7 @@ const AddProduct = () => {
 const updateDataHandler = () => {
 
   setLoading(true)
-  if(image === oldImage){
+  if(image !== oldImage){
     const formData = new FormData();
     formData.append('image', image);
 
@@ -206,13 +217,19 @@ const updateDataHandler = () => {
           })
           setContent("")
         setLoading(false)
-          setTimeout(() => {
-            setSuccess(true)
-          }, 0);
-          setTimeout(() => {
-            setSuccess(false)
-          }, 7000);
+        setMessage({
+          state:true,
+          message: 'Product Updated Successfully'
         })
+        setTimeout(() => {
+          router.push('/admin/products')
+          setMessage({
+            state: false,
+            message: ''
+          })
+          setSuccess(false)
+        }, 5000);
+      })
         .catch(err => console.log(err))
       })
   }
@@ -260,12 +277,18 @@ const updateDataHandler = () => {
         })
         setContent("")
       setLoading(false)
-        setTimeout(() => {
-          setSuccess(true)
-        }, 0);
-        setTimeout(() => {
-          setSuccess(false)
-        }, 7000);
+      setMessage({
+        state:true,
+        message: 'Product Updated Successfully'
+      })
+      setTimeout(() => {
+        router.push('/admin/products')
+        setMessage({
+          state: false,
+          message: ''
+        })
+        setSuccess(false)
+      }, 5000);
       })
       .catch(err => console.log(err))
   }
@@ -281,7 +304,7 @@ const updateDataHandler = () => {
     };
 
     if(loading) {
-      return <p>Loading</p>
+      return <Loading/>
     }
 
   return (
@@ -300,8 +323,8 @@ const updateDataHandler = () => {
         {isUpdate ? 'update product' : 'add product'}
         <div className="w-[120px] h-[1px] bg-yellow-500 m-auto"></div>
       </h2>
-      {success &&
-          <p className="text-center text-xl text-green-400 mt-2 transition-all duration-300 ease-out">product add successfully </p>
+      {message.state &&
+          <p className="text-center text-xl text-green-400 mt-2 mb-1 transition-all duration-300 ease-out">{message.message} </p>
       }
           <input
         type='text'

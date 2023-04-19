@@ -11,6 +11,7 @@ import { useEffect, useState, useContext } from 'react'
 import GridSectionSlider from '../components/GridSectionSlider'
 import { GRAPHQL_URL } from '../lib/constants'
 import {AuthContext} from '../context/authContext'
+import Loading from '../components/Loading'
 
 
 export default function Home({products}) {
@@ -49,6 +50,7 @@ export default function Home({products}) {
       </h2>
      </div>
      </div>
+     {/* <Loading/> */}
      <ProductFeed/>
      <Footer />
       </>

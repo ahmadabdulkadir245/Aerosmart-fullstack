@@ -10,6 +10,7 @@ const mime = require('mime');
 const cloudinary = require('./util/cloudinary')
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const auth = require('./middleware/auth');
+const session = require('express-session');
 
 
 const db = require('./util/database')
@@ -54,6 +55,14 @@ app.use(cors({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Configure session middleware
+app.use(session({
+  secret: 'mySecretKey', // change this to a secret key of your choice
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // set secure: true for HTTPS connections
+}));
 
 
 //  Authentication

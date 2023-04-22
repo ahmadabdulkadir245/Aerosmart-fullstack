@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import { AuthContextProvider } from '../context/authContext';
 
 
+
 import {  Changa, Play, Poppins, Titillium_Web } from '@next/font/google';
 
 const play = Play({

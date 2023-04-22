@@ -75,7 +75,6 @@ module.exports = {
       //   console.log(`This is the product gotten: ${rows}`)
       //   return rows;
       // })
-    console.log(products)
 
       
       return {
@@ -122,6 +121,7 @@ module.exports = {
       'somesupersecretsecret',
       { expiresIn: '1h' }
     );
+   
     return { token: token, userId: user.id };
   },
     createProduct: async function({ productInput }, req) {
@@ -178,7 +178,7 @@ module.exports = {
                 updatedAt: product.updatedAt.toISOString()
             };
           }),
-          totalProducts: totalPages
+          totalPages: totalPages
         };
       },
       product: async function({ id }, req) {

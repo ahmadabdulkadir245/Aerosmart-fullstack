@@ -10,6 +10,7 @@ export const AuthContextProvider = ({children}) => {
     useEffect(() => {
       // Perform localStorage action
        user = localStorage.getItem('user')
+
     }, [])
     const [currentUser, setCurrenctUser] = useState(user || null);
     const [userId, setUserId] = useState(null)
@@ -41,7 +42,10 @@ export const AuthContextProvider = ({children}) => {
         })
         setUserId(res.data.data.login.userId)
         setAuthToken(res.data.data.login.token)
+        localStorage.setItem('token', res.data.data.login.token);
+        localStorage.setItem('userId', res.data.data.login.userId);
        }catch(err) {
+        setLoading(false)
          setError(err.response.data.errors[0].message)
          setTimeout(() => {
            setError(null)
@@ -51,16 +55,20 @@ export const AuthContextProvider = ({children}) => {
 
     const logout = async () => {
     //  await axios.post(process.env.NEXT_PUBLIC_LOGOUT_URL)
-    setCurrenctUser(null)
+    localStorage.clear()
     setAuthToken(null)
+    setUserId(null)
+      return
     }
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(currentUser))
-    }, [currentUser])
+      setUserId(localStorage.getItem('userId'))
+      setAuthToken(localStorage.getItem('token'))
+      localStorage.setItem('user', JSON.stringify(currentUser))
+    }, [currentUser, authToken, userId])
     
     return  (
-    <AuthContext.Provider value={{currentUser, login, logout, authToken}}>{children}
+    <AuthContext.Provider value={{currentUser, login, logout, authToken, userId}}>{children}
     </AuthContext.Provider>)
 }
 

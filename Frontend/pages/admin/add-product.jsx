@@ -53,7 +53,6 @@ const AddProduct = () => {
       setImage(oldImage)
       setContent(description)
       setIsUpdate(true)
-      console.log(oldImage)
     }
   }, [prodId, title, price, category, quantity, oldImage, description])
 
@@ -73,9 +72,7 @@ const AddProduct = () => {
   const [success, setSuccess] = useState(false)
   const [image, setImage] = useState(null)
   const [content, setContent] = useState('');
-  if(prodId) {
-    console.log(image === oldImage)
-  }
+
 
 
   const handleFileInputChange = (event) => {
@@ -222,7 +219,7 @@ const updateDataHandler = () => {
           message: 'Product Updated Successfully'
         })
         setTimeout(() => {
-          router.push('/admin/products')
+          router.back()
           setMessage({
             state: false,
             message: ''
@@ -282,7 +279,7 @@ const updateDataHandler = () => {
         message: 'Product Updated Successfully'
       })
       setTimeout(() => {
-        router.push('/admin/products')
+        router.back()
         setMessage({
           state: false,
           message: ''
@@ -324,7 +321,7 @@ const updateDataHandler = () => {
         <div className="w-[120px] h-[1px] bg-yellow-500 m-auto"></div>
       </h2>
       {message.state &&
-          <p className="text-center text-xl text-green-400 mt-2 mb-1 transition-all duration-300 ease-out">{message.message} </p>
+          <p className="text-center text-xs text-green-400 mt-2 mb-1 transition-all duration-300 ease-out">{message.message} </p>
       }
           <input
         type='text'
@@ -393,6 +390,7 @@ const updateDataHandler = () => {
         <button type="submit"
           className='flex justify-center m-auto mt-5 lg:mt-5  bg-yellow-400 w-56 rounded-full text-white  px-2 py-3 2xl:p-3 outline-none transition-all duration-300 ease-in-out hover:bg-yellow-500 2xl:w-[300px] mb-20'
           onClick={addProductHandler}
+          
         >
           Add
         </button>

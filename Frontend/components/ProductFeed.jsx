@@ -1,11 +1,9 @@
 import Products from './Products'
 import { useEffect, useState } from 'react'
-import { GRAPHQL_URL } from '../lib/constants'
 import ReactPaginate from "react-paginate";
 
 
 const ProductFeed = () => {
-  const pageCount = 10
   const [products, setProducts] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [page, setPage] = useState(1)
@@ -22,7 +20,7 @@ const ProductFeed = () => {
             imageUrl
             description
           }
-          totalProducts
+          totalPages
         }
       }
       `
@@ -40,7 +38,7 @@ const ProductFeed = () => {
       .then(productData => {
         const recievedData = productData.data?.products?.products || []
         recievedData.reverse()
-        const productPages = productData.data?.products.totalProducts
+        const productPages = productData.data?.products.totalPages
         setProducts(recievedData)
         setTotalPages(productPages)
       })

@@ -9,9 +9,6 @@ import Loading from "./Loading"
 
 function AdminProductsList({id, title, imageUrl, category, price, description, quantity, setLoading}) {
   const router = useRouter()
-    const editHandler = () => {
-    router.push(`/admin/add-product?${id}`)
-  }
   const deleteHandler = (id, e) => {
     e.preventDefault()
     setLoading(true)
@@ -35,6 +32,11 @@ function AdminProductsList({id, title, imageUrl, category, price, description, q
       .then(res => {
         return res.json();
       })
+      .then(result => {
+        setTimeout(() => {
+          setLoading(false)
+        }, 3000)
+  })
   }
 
 

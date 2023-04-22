@@ -41,7 +41,7 @@ module.exports = buildSchema(`
 
     type ProductData {
         products: [Product!]!
-        totalProducts: Int!
+        totalPages: Int!
     }
 
     type BannerData {

@@ -28,7 +28,7 @@ function AminProducts() {
             imageUrl
             description
           }
-          totalProducts
+          totalPages
         }
       }
       `
@@ -46,7 +46,7 @@ function AminProducts() {
       .then(productData => {
         const recievedData = productData.data?.products?.products || []
         recievedData.reverse()
-        const productPages = productData.data?.products.totalProducts
+        const productPages = productData.data?.products.totalPages
         setProducts(recievedData)
         setTotalPages(productPages)
       })
@@ -143,7 +143,7 @@ export const getServerSideProps = async (context) => {
             imageUrl
             description
           }
-          totalProducts
+          totalPages
         }
       }
       `
@@ -167,7 +167,7 @@ export const getServerSideProps = async (context) => {
       return {
         props: {
           products: data?.data?.products?.products || [],
-          totalProducts: data?.data?.products?.totalProducts || 1
+          totalPages: data?.data?.products?.totalPages || 1
         }
       }
     }

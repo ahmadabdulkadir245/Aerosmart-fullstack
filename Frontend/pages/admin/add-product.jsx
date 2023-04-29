@@ -316,7 +316,7 @@ const updateDataHandler = () => {
 
 
     <form  className="px-[10px]">
-      <h2 className="text-center text-xl uppercase text-gray-500  my-5 [word-spacing: 10px] ">
+      <h2 className="text-center text-xl uppercase text-gray-500  my-5 [word-spacing: 10px] font-poppins">
         {isUpdate ? 'update product' : 'add product'}
         <div className="w-[120px] h-[1px] bg-yellow-500 m-auto"></div>
       </h2>

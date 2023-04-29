@@ -12,6 +12,11 @@ import GridSectionSlider from '../components/GridSectionSlider'
 import { GRAPHQL_URL } from '../lib/constants'
 import {AuthContext} from '../context/authContext'
 import Loading from '../components/Loading'
+import DesktopBanner from '../components/DesktopBanner'
+import DesktopCategpry from '../components/DesktopCategpry'
+import FeaturedProducts from '../components/FeaturedProducts'
+import LatestProducts from '../components/LatestProducts'
+import About from '../components/About'
 
 
 export default function Home({products}) {
@@ -36,11 +41,26 @@ export default function Home({products}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header/>
-     <Banner/>
-    <main className='lg:mt-5'>
+     {/* <Banner/> */}
+     <DesktopBanner/>
+    <main className='lg:mt-5 max-w-7xl mx-auto'>
+      <div className="hidden lg:block">
+      <DesktopCategpry/>
+      </div>
+      <div className="lg:hidden">
      <CategoryIcons/>
+      </div>
+      <About/>
+      <div className="hidden lg:block">
+      <FeaturedProducts products={products}/>
+      <LatestProducts products={products}/>
+      </div>
      <SectionSlider sectionTitle={'latest products'} products={products}/>
      <GridSectionSlider sectionTitle={'top selling products'} products={products} />
+     <h2 className="capitalize text-xl font-poppins mb-5 hidden lg:inline-block">All Products</h2>
+     <div className="flex items-center py-2 px-3 justify-center bg-gray-300 p-2 text-gray-700  mb-2 text-center lg:hidden">
+          <p className="font-bold uppercase ">Products</p>
+      </div>
      <ProductFeed/>
      </main>
      <Footer />

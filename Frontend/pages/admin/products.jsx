@@ -65,7 +65,7 @@ function AminProducts() {
     <>
     <Header/>
        <div className='px-[10px] lg:px-[50px]'>
-       <h2 className='text-center font-semibold text-2xl  py-6 tracking-wide font-changa text-gray-500'>ALL PRODUCTS</h2>
+       <h2 className='text-center font-semibold text-2xl  py-6 tracking-wide font-poppins text-gray-500'>ALL PRODUCTS</h2>
     <div className="grid grid-cols-4 lg:grid-cols-7 items-center uppercase bg-gray-300 p-2 text-gray-700 text-xs font-semibold text-center">
         <div className="">
           <p><span className='hidden lg:inline-block'>PRODUCT </span> IMAGE</p>

@@ -8,15 +8,15 @@ import { RxInstagramLogo } from "react-icons/rx"
 
 function Footer() {
   return (
-    <div className="relative left-0 bottom-0 bg-white  py-5 px-5 text-gray-500  mt-16 shadow-xl min-h-full">
+    <div className="relative left-0 bottom-0 bg-white  py-5 px-5 text-gray-800  mt-16 shadow-xl min-h- font-poppins ">
     <div
     className='grid md:grid-cols-2 grid-flow-row-dense lg:grid-cols-4
-  mx-auto m-2 gap-10 px-2 md:px-4 mt-12'
+  mx-auto m-2 gap-10 px-2 md:px-4 mt-12 text-xs max-w-7xl'
   >
-    <div >
-            <h3 className="capitalize text-3xl mb-3 font-bold">Aerosmart</h3>
+    <div className=""> 
+            <h3 className="capitalize text-3xl mb-3 text-gray-800 font-changa">Aerosmart</h3>
                 <div className="block">
-                    <p>
+                    <p className="leading-6">
                         Aerosmart is an online shopping platform (Ecommerce) where you can all building products from anywhere in nigeria at the comfort of your Home, office or leisure space without the hastle of going to the market place.
 
                     </p>
@@ -24,8 +24,8 @@ function Footer() {
             </div>
     </div>
 
-    <div >
-            <h3 className="capitalize text-2xl font-bold">Office</h3>
+    <div className="leading-6" >
+            <h3 className="capitalize text-2xl text-gray-800 font-changa">Office</h3>
             <div className="h-[1px] w-16 bg-gray-500 text-center"></div>
             <div className="block mt-2">
 
@@ -48,9 +48,9 @@ function Footer() {
     </div>
 
     <div >
-            <h3 className="capitalize text-2xl font-bold">Links</h3>
+            <h3 className="capitalize text-2xl text-gray-800 font-changa">Links</h3>
             <div className="h-[1px] w-14 bg-gray-500 text-center"></div>
-            <div className="block mt-3">
+            <div className="block mt-3 leading-6">
                 <p>
             <Link href={'/'} className="my-2">Home</Link>
                 </p>
@@ -68,7 +68,7 @@ function Footer() {
     </div>
 
     <div >
-            <h3 className="capitalize text-xl  font-bold">News Letter</h3>
+            <h3 className="capitalize text-xl  text-gray-800 font-changa">News Letter</h3>
             <div className="h-[1px] w-28 bg-gray-500 text-center"></div>
 
             <div className="block mt-4">
@@ -78,7 +78,7 @@ function Footer() {
                 <input type="email" required placeholder="Enter your email address" className=" border-none  outline-none  p-1 text-gray-700 flex-1" />
                </div>
 
-                <div><TiArrowRight className="w-12 h-7 font-bold" /></div>
+                <div><TiArrowRight className="w-12 h-7 text-gray-800 font-changa" /></div>
                 </div>
             </div>
                     <div className="border-b-[1px] border-gray-700 w-full"></div>
@@ -94,7 +94,7 @@ function Footer() {
 
     </div>
                     <div className="h-[1px] w-full my-4 bg-gray-700"></div>
-                    <p className="font-bold px-1 text-center">Aerosmart &#169; 2023 - All Rights Reserved</p>
+                    <p className="text-gray-800 font-changa px-1 text-center text-sm">Aerosmart &#169; 2023 - All Rights Reserved</p>
     </div>
   )
 }

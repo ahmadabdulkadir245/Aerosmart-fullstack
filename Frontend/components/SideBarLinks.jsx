@@ -24,7 +24,7 @@ function SideBarLinks() {
   const {logout, authToken} = useContext(AuthContext)
   const logoutHandler = () => {
     logout()
-      router.push('/login')
+      router.replace('/login')
     setOpenSideBar(false)
   }
 

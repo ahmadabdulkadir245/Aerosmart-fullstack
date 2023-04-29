@@ -1,18 +1,13 @@
 import axios from 'axios';
 import { useRouter } from "next/router";
 import {createContext, useEffect, useState } from 'react'
+import jwt from 'jsonwebtoken';
 
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
   const router = useRouter()
-    let user
-    useEffect(() => {
-      // Perform localStorage action
-       user = localStorage.getItem('user')
 
-    }, [])
-    const [currentUser, setCurrenctUser] = useState(user || null);
     const [userId, setUserId] = useState(null)
     const [authToken, setAuthToken] = useState(null)
 
@@ -58,17 +53,28 @@ export const AuthContextProvider = ({children}) => {
     localStorage.clear()
     setAuthToken(null)
     setUserId(null)
-      return
+      return 
     }
 
     useEffect(() => {
-      setUserId(localStorage.getItem('userId'))
-      setAuthToken(localStorage.getItem('token'))
-      localStorage.setItem('user', JSON.stringify(currentUser))
-    }, [currentUser, authToken, userId])
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) {
+        const decodedToken = jwt.decode(storedToken);
+        if (decodedToken.exp < Date.now() / 1000) {
+          // Token has expired
+          localStorage.clear()
+          setAuthToken(null);
+        } else {
+          // Token is still valid
+          setAuthToken(storedToken);
+          setUserId(localStorage.getItem('userId'))
+          setAuthToken(localStorage.getItem('token'))
+        }
+      }
+    }, [ authToken, userId])
     
     return  (
-    <AuthContext.Provider value={{currentUser, login, logout, authToken, userId}}>{children}
+    <AuthContext.Provider value={{login, logout, authToken, userId}}>{children}
     </AuthContext.Provider>)
 }
 

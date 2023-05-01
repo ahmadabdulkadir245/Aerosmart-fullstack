@@ -24,7 +24,7 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
           <p className="font-bold uppercase ">{sectionTitle}</p>
           <p className="capitalize text-xs">show all product</p>
       </div> */}
-      <h2 className="capitalize text-xl font-poppins mb-5">Latest Products</h2>
+      <h2 className="capitalize text-xl font-poppins mb-5 text-gray-800">Featured Products</h2>
         <div className='relative  w-full m-auto rounded-md overflow-hidden'>
      <Swiper watchSlidesProgress={true} slidesPerView={6}  className="mySwiper overflow-x-scroll cursor-pointer">
         {products.map(product=> (

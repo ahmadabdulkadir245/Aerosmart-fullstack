@@ -55,4 +55,30 @@ module.exports = class Product {
       [this.title, this.price, this.imageUrl, this.description, this.category, this.quantity, this.userId, id]
     );
   }
+
+  static totalSearchProduct(searchWord) {
+    return db.execute(
+      `SELECT * FROM products WHERE products.category REGEXP '${searchWord}'
+      `
+    );
+  }
+
+  static findCategory(word) {
+    return db.execute('SELECT category FROM products WHERE products.title = ?', [word]);
+  }
+
+  static search(searchWord, perPage, offset) {
+    return db.execute(
+      `SELECT * FROM products WHERE products.category REGEXP '${searchWord}' OR products.title REGEXP '${searchWord}' 
+      LIMIT ${perPage} OFFSET ${offset}
+      `
+    );
+  }
+
+  static searchSuggession(searchWord) {
+    return db.execute(
+      `SELECT * FROM products WHERE  products.category REGEXP '${searchWord}' OR products.title REGEXP '${searchWord}' LIMIT ${10} OFFSET ${0}
+      `
+    );
+  }
 };

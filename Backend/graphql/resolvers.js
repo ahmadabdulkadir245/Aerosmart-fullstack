@@ -161,7 +161,6 @@ module.exports = {
         })
         .catch(err => console.log(err));
 
-        const totalPosts = 5
         const totalPages = Math.ceil(totalProducts.length / perPage);
         
         return {
@@ -219,7 +218,7 @@ module.exports = {
       },
 
       banners: async function( req) {
-        const banners = await Banner.fetchAll() .then(([rows, fieldData]) => {
+        const banners = await Banner.fetchAll().then(([rows, fieldData]) => {
           return rows
         })
         .catch(err => console.log(err));
@@ -257,5 +256,59 @@ module.exports = {
           // createdAt: createdProduct.createdAt.toISOString(),
           // updatedAt: createdProduct.updatedAt.toISOString()
         };
+      }, 
+      searchList: async function( {word}, req) {
+        const searchWords = await Product.searchSuggession(word) .then(([rows, fieldData]) => {
+          return rows
+        })
+        .catch(err => console.log(err));
+
+        return { 
+           searchList: searchWords.map(searchWord => {
+          return {
+           id: searchWord.id,
+           title: searchWord.title,
+          }
+        })
+      }
+    },
+      search: async function( {word, page, perPage}, req) {
+        if (!page) {
+          page = 1;
+        }
+        // const productPerPage = perPage
+        const offset =  (page - 1 ) * perPage 
+
+        const category = await Product.findCategory(word) .then(([rows, fieldData]) => {
+          return rows[0]
+        })
+        .catch(err => console.log(err));
+        // JSON.stringify(category)
+        console.log(`This is the category === ${category}`)
+
+          const searchWords = await Product.search(word, perPage, offset) .then(([rows, fieldData]) => {
+            return rows
+          })
+          .catch(err => console.log(err));
+
+          const totalProducts = await Product.totalSearchProduct(word).then(([rows, fieldData]) => {
+            return rows
+          })
+          .catch(err => console.log(err));
+
+          const totalPages = Math.ceil(totalProducts.length / page);
+
+          return {
+            search: searchWords.map(searchWord => {
+              return {
+               id: searchWord.id,
+               title: searchWord.title,
+               description: searchWord.description,
+               price: searchWord.price,
+               image: searchWord.imageUrl
+              }
+            }),
+            totalPages: totalPages
+          }
       }
 }

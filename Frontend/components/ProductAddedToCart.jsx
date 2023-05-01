@@ -25,12 +25,12 @@ function ProductAddedToCart({ id, title, productQty, description, image }) {
 
 
   return (
-    <div  className='grid grid-cols-3  px-3 gap-4 my-5'>
+    <div  className='grid grid-cols-3 lg:flex  px-3 gap-4 my-5'>
       
       <div className='relative w-full h-[120px] text-gray-600 '>
         <Image src={image} alt={title} layout='fill' objectFit="cover" />
       </div>
-      <div className='col-span-2 '>
+      <div className='col-span-2'>
         <p className='truncate uppercase text-sm'>{title}</p>
       <p className="lowercase leading-4 line-clamp-3 text-xs ">  <p  dangerouslySetInnerHTML={{ __html: description }} 
       /> </p>

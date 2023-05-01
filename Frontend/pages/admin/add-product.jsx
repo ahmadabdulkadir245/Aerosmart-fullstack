@@ -148,7 +148,7 @@ const AddProduct = () => {
           message: ''
         })
         setSuccess(false)
-      }, 7000);
+      }, 3000);
     })
     })
     .catch(err => console.log(err))
@@ -225,7 +225,7 @@ const updateDataHandler = () => {
             message: ''
           })
           setSuccess(false)
-        }, 5000);
+        }, 3000);
       })
         .catch(err => console.log(err))
       })
@@ -285,7 +285,7 @@ const updateDataHandler = () => {
           message: ''
         })
         setSuccess(false)
-      }, 5000);
+      }, 3000);
       })
       .catch(err => console.log(err))
   }

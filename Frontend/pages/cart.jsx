@@ -6,6 +6,7 @@ import { emptyCart, selectedcartItems, selectTotal } from "../slices/cartSlice";
 import {TbCurrencyNaira} from "react-icons/tb"
 import { useRouter } from "next/navigation";
 import { addToOrder } from "../slices/orderSlice";
+import DesktopCart from "../components/DesktopCart";
 
 
 
@@ -41,8 +42,8 @@ function Cart() {
   return (
     <div className=''>
       <Header />
-      <div className='pt-5 m-auto  lg:max-w-5xl  h-[calc(100vh-124px)] transition-all duration-500 ease-in overflow-y-scroll '>
-        <div className="flex items-center justify-between  px-[12px] text-gray-800 bg-white py-2 rounded-md">
+      <div className='pt-5 lg:grid grid-cols-3 gap-x-6 m-auto  lg:max-w-7xl  h-[calc(100vh-124px)] lg:h-full transition-all duration-500 ease-in overflow-y-scroll scrollbar-hide'>
+        <div className="flex lg:hidden items-center justify-between  px-[12px] lg:px-0 text-gray-800 bg-white py-2 rounded-md">
           <div className="flex ">
             <p className="uppercase">subtotal </p>
             <p > - ({" "} {cartItems.length} {cartItems.length > 1 ? 
@@ -53,20 +54,52 @@ function Cart() {
             <p className="flex items-center "><TbCurrencyNaira  className="w-5 h-5 font-bold"/>{cartTotal.toLocaleString()}</p>
           </div>
         </div>
-        {cartItems.map(
+              <div className="col-span-2">
+
+        <div className="hidden lg:flex items-center uppercase bg-gray-200 py-2 px-5 text-gray-700 text-sm font-poppins tracking-wider text-center">
+        <div className="">
+          <p><span className='hidden lg:inline-block'>PRODUCTS</span> </p>
+        </div>
+      
+    </div>
+
+        {/* {cartItems.map(
           ({ product, qty}) => (
             <ProductAddedToCart
-              key={product.id}
-              id={product.id}
-              title={product.title}
-              price={product.price}
-              description={product.description}
-              productQty={qty}
-              image={product.image}
+            key={product.id}
+            id={product.id}
+            title={product.title}
+            price={product.price}
+            description={product.description}
+            productQty={qty}
+            image={product.image}
             />
-          )
-        )}
+            )
+            )} */}
+        {cartItems.map(
+          ({ product, qty}) => (
+            <DesktopCart
+            key={product.id}
+            id={product.id}
+            title={product.title}
+            price={product.price}
+            description={product.description}
+            productQty={qty}
+            image={product.image}
+            />
+            )
+            )}
       </div>
+            <div className="">
+            <div className="hidden lg:flex items-center uppercase bg-gray-200 py-2 px-5 text-gray-700 text-sm font-poppins tracking-wider text-center">
+        <div className="">
+          <p><span className='hidden lg:inline-block'>ORDER SUMMERY</span> </p>
+        </div>
+            </div>
+          </div>
+            </div>
+
+
       <div className="fixed left-0 bottom-0 px-3 shadow-xl w-full  text-lg bg-white z-10 pt-2 overflow-hiddentext-gray-500">
       <button className="capitalize w-[90%] h-[48px] rounded-md text-white  text-sm bg-yellow-500  mb-2 flex items-center justify-center m-auto " 
       onClick={checkoutHandler}>BuY Now | <TbCurrencyNaira  className="w-5 h-5"/>{cartTotal.toLocaleString()}

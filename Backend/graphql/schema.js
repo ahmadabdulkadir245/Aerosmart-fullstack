@@ -34,6 +34,19 @@ module.exports = buildSchema(`
         productId: Int
     }
 
+    type searchSuggessions {
+        id: Int
+        title: String
+    }
+
+    type SearchedProducts {
+        id: Int
+        price: Int
+        title: String
+        description: String
+        image: String
+    }
+
     type AuthData {
         token: String!
         userId: String!
@@ -44,9 +57,19 @@ module.exports = buildSchema(`
         totalPages: Int!
     }
 
+    type searchSuggessionData {
+        searchList: [searchSuggessions!]!
+    }
+
+    type SearchedProductsData { 
+        search: [SearchedProducts]
+        totalPages: Int!
+    }
+
     type BannerData {
         banners: [Banner]!
     }
+
 
     type CartData {
         carts: [Cart]!
@@ -62,6 +85,7 @@ module.exports = buildSchema(`
         email: String!
         password: String!
     }
+
 
     input CartInputData {
         userId: Int
@@ -83,7 +107,8 @@ module.exports = buildSchema(`
         login(email: String!, password: String!): AuthData!
         products(page: Int, perPage: Int): ProductData!
         product(id: ID!): Product!
-        newProduct(id: ID!): Product!
+        searchList(word: String): searchSuggessionData!
+        search(word: String!, page: Int, perPage: Int): SearchedProductsData!
         user: User!
         cart(userId: Int): ProductData!
         banners: BannerData!

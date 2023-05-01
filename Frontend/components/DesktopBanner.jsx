@@ -54,7 +54,7 @@ function DesktopBanner() {
 
   
   return (
-    <div className='w-full px-[10px] max-w-7xl    m-auto  mt-2 lg:mt-8 transition-all duration-700 ease-out '>
+    <div className='w-full lg:h-[500px]  px-[10px]  lg:px-0 m-auto  mt-2 lg:mt-0 transition-all duration-700 ease-out '>
     <Swiper
       spaceBetween={30}
       loop={true}
@@ -65,14 +65,14 @@ function DesktopBanner() {
       modules={[Pagination, Thumbs]}
       className="mySwiper"
     >
-      <div className="relative w-full h-full  overflow-hidden m-auto  lg:m-0 rounded-md lg:rounded-sm"
+      <div className="relative w-full h-full  overflow-hidden m-auto  lg:m-0 rounded-md lg:rounded-none"
         // suppressHydrationWarning
       >
         {banners.map(banner => (
         <SwiperSlide key={banner.id} >
-            <div className='relative  w-full h-[300px] lg:h-[500px]  rounded-md lg:rounded-sm'>
+            <div className='relative  w-full h-[300px] lg:h-[500px]  rounded-md lg:rounded-none'>
           <Image src={banner.image} 
-          alt={banner.id} priority  className="rounded-md " layout="fill" objectFit="cover" />
+          alt={banner.id} priority  className="rounded-md lg:rounded-none " layout="fill" objectFit="cover" />
             </div>
       </SwiperSlide>
         ))}

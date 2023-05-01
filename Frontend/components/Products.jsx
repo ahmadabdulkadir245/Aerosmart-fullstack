@@ -59,7 +59,7 @@ const Products = ({ id, title, price, description, image }) => {
           </button>
         </div>
       ) : (
-        <div className='relative flex flex-col  bg-white z-30 shadow-xl transition-all duration-500 linear animate-pulse'>
+        <div className='relative flex flex-col  bg-white z-30 shadow-xl transition-all duration-500 linear animate-pulse h-[280px]'>
           <div className='absolute h-full w-10  bg-white pulse overflow-hidden z-[40] rounded-md'></div>
 
           <div className='absolute top-2 right-2 w-12 h-2 rounded-md z-20 bg-gray-200'></div>
